@@ -1,0 +1,95 @@
+{
+  "entities": {
+    "users": {
+      "title": "User Profile",
+      "description": "User preferences and settings",
+      "type": "object",
+      "properties": {
+        "dailyTargetEarnings": { "type": "number" },
+        "currency": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["dailyTargetEarnings", "currency"]
+    },
+    "incomes": {
+      "title": "Income Record",
+      "description": "Courier income entry",
+      "type": "object",
+      "properties": {
+        "amount": { "type": "number" },
+        "source": { "type": "string" },
+        "category": { "type": "string" },
+        "date": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "userId": { "type": "string" }
+      },
+      "required": ["amount", "source", "category", "date", "userId"]
+    },
+    "expenses": {
+      "title": "Expense Record",
+      "description": "Courier expense entry",
+      "type": "object",
+      "properties": {
+        "amount": { "type": "number" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "date": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "userId": { "type": "string" }
+      },
+      "required": ["amount", "description", "category", "date", "userId"]
+    },
+    "liabilities": {
+      "title": "Liability Record",
+      "description": "Debts owed by courier",
+      "type": "object",
+      "properties": {
+        "creditorName": { "type": "string" },
+        "totalAmount": { "type": "number" },
+        "paidAmount": { "type": "number" },
+        "dueDate": { "type": "string" },
+        "category": { "type": "string" },
+        "status": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "userId": { "type": "string" }
+      },
+      "required": ["creditorName", "totalAmount", "paidAmount", "dueDate", "category", "status", "userId"]
+    },
+    "receivables": {
+      "title": "Receivable Record",
+      "description": "Money owed to courier",
+      "type": "object",
+      "properties": {
+        "debtorName": { "type": "string" },
+        "totalAmount": { "type": "number" },
+        "collectedAmount": { "type": "number" },
+        "expectedDate": { "type": "string" },
+        "category": { "type": "string" },
+        "status": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "userId": { "type": "string" }
+      },
+      "required": ["debtorName", "totalAmount", "collectedAmount", "expectedDate", "category", "status", "userId"]
+    },
+    "goals": {
+      "title": "Goal Record",
+      "description": "Financial goals",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "targetAmount": { "type": "number" },
+        "currentSavedAmount": { "type": "number" },
+        "targetDate": { "type": "string" },
+        "isCompleted": { "type": "boolean" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "userId": { "type": "string" }
+      },
+      "required": ["title", "targetAmount", "currentSavedAmount", "targetDate", "isCompleted", "userId"]
+    }
+  }
+}
