@@ -91,15 +91,15 @@ export const IncomeModule: React.FC<IncomeModuleProps> = ({
     <div className="space-y-6">
       
       {/* Top Banner & Action */}
-      <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="bg-slate-900/90 rounded-2xl p-5 border border-slate-800/80 shadow-md backdrop-blur-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <div className="p-2 bg-emerald-100 text-emerald-700 rounded-xl">
+            <div className="p-2 bg-emerald-500/20 text-emerald-400 rounded-xl border border-emerald-500/30">
               <TrendingUp className="w-5 h-5" />
             </div>
-            <h2 className="text-xl font-bold text-slate-900">تسجيل وإدارة المقبوضات والدخل</h2>
+            <h2 className="text-xl font-bold text-white">تسجيل وإدارة المقبوضات والدخل</h2>
           </div>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-slate-400 mt-1">
             سجّل كل إيراداتك اليومية من أوردرات المطاعم، الصيدليات، والعملاء والتيبس
           </p>
         </div>
@@ -115,7 +115,7 @@ export const IncomeModule: React.FC<IncomeModuleProps> = ({
       </div>
 
       {/* Filters and Search Bar */}
-      <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-3">
+      <div className="bg-slate-900/90 rounded-2xl p-4 border border-slate-800/80 shadow-md backdrop-blur-md space-y-3">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           
           {/* Search Input */}
@@ -126,7 +126,7 @@ export const IncomeModule: React.FC<IncomeModuleProps> = ({
               placeholder="بحث باسم المطعم أو العميل..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pr-9 pl-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:border-emerald-500 outline-none transition"
+              className="w-full pr-9 pl-3 py-2 bg-slate-950/80 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:border-emerald-500 outline-none transition"
             />
           </div>
 
@@ -136,8 +136,8 @@ export const IncomeModule: React.FC<IncomeModuleProps> = ({
               onClick={() => setSelectedCategoryFilter('all')}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
                 selectedCategoryFilter === 'all'
-                  ? 'bg-slate-900 text-white'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                  : 'bg-slate-800/80 text-slate-400 hover:text-slate-200'
               }`}
             >
               الكل ({state.incomes.length})
@@ -149,7 +149,7 @@ export const IncomeModule: React.FC<IncomeModuleProps> = ({
                 className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
                   selectedCategoryFilter === catKey
                     ? 'bg-emerald-600 text-white'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    : 'bg-slate-800/80 text-slate-400 hover:text-slate-200'
                 }`}
               >
                 {label}
@@ -160,33 +160,33 @@ export const IncomeModule: React.FC<IncomeModuleProps> = ({
         </div>
 
         {/* Total Filtered Summary */}
-        <div className="flex justify-between items-center text-xs text-slate-500 pt-2 border-t border-slate-100">
+        <div className="flex justify-between items-center text-xs text-slate-400 pt-2 border-t border-slate-800/80">
           <span>عدد المعاملات المعروضة: {filteredIncomes.length}</span>
-          <span className="font-bold text-emerald-700">
+          <span className="font-bold text-emerald-400">
             إجمالي المعروض: {formatCurrency(totalFilteredAmount, state.currency)}
           </span>
         </div>
       </div>
 
       {/* Income Records Table / Cards */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+      <div className="bg-slate-900/90 rounded-2xl border border-slate-800/80 shadow-md backdrop-blur-md overflow-hidden">
         {filteredIncomes.length > 0 ? (
-          <div className="divide-y divide-slate-100">
+          <div className="divide-y divide-slate-800/80">
             {filteredIncomes.map((item) => {
               const catInfo = CATEGORY_LABELS[item.category] || CATEGORY_LABELS.other;
               return (
                 <div
                   key={item.id}
-                  className="p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 hover:bg-slate-50/70 transition"
+                  className="p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 hover:bg-slate-800/50 transition"
                 >
                   <div className="flex items-start gap-3">
-                    <div className="p-3 bg-emerald-50 text-emerald-600 rounded-xl mt-0.5">
+                    <div className="p-3 bg-emerald-500/20 text-emerald-400 rounded-xl mt-0.5 border border-emerald-500/30">
                       <TrendingUp className="w-5 h-5" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h4 className="text-sm font-bold text-slate-900">{item.source}</h4>
-                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${catInfo.color}`}>
+                        <h4 className="text-sm font-bold text-white">{item.source}</h4>
+                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
                           {catInfo.label}
                         </span>
                       </div>
@@ -201,12 +201,12 @@ export const IncomeModule: React.FC<IncomeModuleProps> = ({
                   </div>
 
                   <div className="flex items-center justify-between w-full sm:w-auto sm:justify-end gap-4">
-                    <span className="text-base sm:text-lg font-bold text-emerald-600">
+                    <span className="text-base sm:text-lg font-bold text-emerald-400">
                       +{formatCurrency(item.amount, state.currency)}
                     </span>
                     <button
                       onClick={() => onDeleteIncome(item.id)}
-                      className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                      className="p-2 text-slate-400 hover:text-rose-400 hover:bg-slate-800 rounded-lg transition"
                       title="حذف الإيراد"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -217,8 +217,8 @@ export const IncomeModule: React.FC<IncomeModuleProps> = ({
             })}
           </div>
         ) : (
-          <div className="py-12 text-center text-slate-400">
-            <TrendingUp className="w-10 h-10 mx-auto mb-2 text-slate-300" />
+          <div className="py-12 text-center text-slate-500">
+            <TrendingUp className="w-10 h-10 mx-auto mb-2 text-slate-600" />
             <p className="text-sm font-medium">لا توجد سجلات دخل مطابقة للبحث.</p>
           </div>
         )}
@@ -226,19 +226,19 @@ export const IncomeModule: React.FC<IncomeModuleProps> = ({
 
       {/* Add Income Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-100 animate-in fade-in zoom-in duration-150">
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-slate-900 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-800 text-white animate-in fade-in zoom-in duration-150">
             
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
               <div className="flex items-center gap-2">
-                <div className="p-2 bg-emerald-100 text-emerald-700 rounded-xl">
+                <div className="p-2 bg-emerald-500/20 text-emerald-400 rounded-xl border border-emerald-500/30">
                   <Plus className="w-5 h-5" />
                 </div>
-                <h3 className="text-lg font-bold text-slate-900">تسجيل دخل / تحصيل جديد</h3>
+                <h3 className="text-lg font-bold text-white">تسجيل دخل / تحصيل جديد</h3>
               </div>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg transition"
+                className="p-1.5 text-slate-400 hover:text-slate-200 rounded-lg transition"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -248,7 +248,7 @@ export const IncomeModule: React.FC<IncomeModuleProps> = ({
               
               {/* Source Name */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label className="block text-xs font-bold text-slate-300 mb-1">
                   البيان / الوصف (اسم المطعم، الصيدلية، أو العميل) *
                 </label>
                 <input
@@ -257,14 +257,14 @@ export const IncomeModule: React.FC<IncomeModuleProps> = ({
                   placeholder="مثال: مطعم البرنس، صيدلية العزبي، أوردر التجمع"
                   value={source}
                   onChange={(e) => setSource(e.target.value)}
-                  className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-xs focus:border-emerald-500 outline-none"
+                  className="w-full px-3 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:border-emerald-500 outline-none"
                 />
               </div>
 
               {/* Amount & Date */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">المبلغ (ج.م) *</label>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">المبلغ (ج.م) *</label>
                   <input
                     type="number"
                     step="any"
@@ -272,29 +272,29 @@ export const IncomeModule: React.FC<IncomeModuleProps> = ({
                     placeholder="0.00"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
-                    className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-xs font-bold text-emerald-700 focus:border-emerald-500 outline-none"
+                    className="w-full px-3 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-xs font-bold text-emerald-400 focus:border-emerald-500 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">التاريخ *</label>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">التاريخ *</label>
                   <input
                     type="date"
                     required
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-xs focus:border-emerald-500 outline-none"
+                    className="w-full px-3 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-xs text-white focus:border-emerald-500 outline-none"
                   />
                 </div>
               </div>
 
               {/* Category */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">تصنيف الإيراد</label>
+                <label className="block text-xs font-bold text-slate-300 mb-1">تصنيف الإيراد</label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value as IncomeCategory)}
-                  className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-xs focus:border-emerald-500 outline-none bg-white"
+                  className="w-full px-3 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:border-emerald-500 outline-none"
                 >
                   <option value="orders">تحصيل أوردرات</option>
                   <option value="tips">إكرامية وتيبس</option>
@@ -305,13 +305,13 @@ export const IncomeModule: React.FC<IncomeModuleProps> = ({
 
               {/* Notes */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">ملاحظات إضافية (اختياري)</label>
+                <label className="block text-xs font-bold text-slate-300 mb-1">ملاحظات إضافية (اختياري)</label>
                 <input
                   type="text"
                   placeholder="مثال: تحصيل شيفت المساء، باقي أوردر 23"
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-xs focus:border-emerald-500 outline-none"
+                  className="w-full px-3 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:border-emerald-500 outline-none"
                 />
               </div>
 
@@ -319,7 +319,7 @@ export const IncomeModule: React.FC<IncomeModuleProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition"
+                  className="px-4 py-2.5 text-xs font-semibold text-slate-400 hover:bg-slate-800 rounded-xl transition"
                 >
                   إلغاء
                 </button>

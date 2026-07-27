@@ -114,15 +114,15 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
     <div className="space-y-6">
       
       {/* Top Banner */}
-      <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="bg-slate-900/90 rounded-2xl p-5 border border-slate-800/80 shadow-md backdrop-blur-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <div className="p-2 bg-amber-100 text-amber-800 rounded-xl">
+            <div className="p-2 bg-amber-500/20 text-amber-400 rounded-xl border border-amber-500/30">
               <CreditCard className="w-5 h-5" />
             </div>
-            <h2 className="text-xl font-bold text-slate-900">إدارة الديون والالتزامات (فلوس عليا)</h2>
+            <h2 className="text-xl font-bold text-white">إدارة الديون والالتزامات (فلوس عليا)</h2>
           </div>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-slate-400 mt-1">
             سجّل كل ديونك المستحقة (الإيجار، قسط المكنة، الجمعيات) وتتبع حالة السداد خطوة بخطوة
           </p>
         </div>
@@ -138,7 +138,7 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
       </div>
 
       {/* Filter and Total Summary Bar */}
-      <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-3">
+      <div className="bg-slate-900/90 rounded-2xl p-4 border border-slate-800/80 shadow-md backdrop-blur-md space-y-3">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           
           <div className="relative w-full sm:w-72">
@@ -148,7 +148,7 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
               placeholder="بحث باسم الدائن أو الجمعية..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pr-9 pl-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:border-amber-500 outline-none transition"
+              className="w-full pr-9 pl-3 py-2 bg-slate-950/80 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:border-amber-500 outline-none transition"
             />
           </div>
 
@@ -157,8 +157,8 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
               onClick={() => setStatusFilter('all')}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
                 statusFilter === 'all'
-                  ? 'bg-slate-900 text-white'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                  : 'bg-slate-800/80 text-slate-400 hover:text-slate-200'
               }`}
             >
               الكل ({state.liabilities.length})
@@ -168,7 +168,7 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
                 statusFilter === 'unpaid'
                   ? 'bg-rose-600 text-white'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  : 'bg-slate-800/80 text-slate-400 hover:text-slate-200'
               }`}
             >
               غير مدفوع
@@ -178,7 +178,7 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
                 statusFilter === 'partial'
                   ? 'bg-amber-600 text-white'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  : 'bg-slate-800/80 text-slate-400 hover:text-slate-200'
               }`}
             >
               مدفوع جزئياً
@@ -188,7 +188,7 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
                 statusFilter === 'paid'
                   ? 'bg-emerald-600 text-white'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  : 'bg-slate-800/80 text-slate-400 hover:text-slate-200'
               }`}
             >
               تم السداد بالكامل
@@ -197,9 +197,9 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
 
         </div>
 
-        <div className="flex justify-between items-center text-xs text-slate-500 pt-2 border-t border-slate-100">
+        <div className="flex justify-between items-center text-xs text-slate-400 pt-2 border-t border-slate-800/80">
           <span>عدد التزامات المعروضة: {filteredLiabilities.length}</span>
-          <span className="font-bold text-amber-700">
+          <span className="font-bold text-amber-400">
             إجمالي الديون المتبقية: {formatCurrency(totalRemainingLiabilities, state.currency)}
           </span>
         </div>
@@ -217,26 +217,26 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
             return (
               <div
                 key={item.id}
-                className={`bg-white rounded-2xl p-5 border shadow-xs flex flex-col justify-between space-y-4 transition ${
-                  isPaid ? 'border-emerald-200 bg-emerald-50/20' : 'border-slate-200'
+                className={`bg-slate-900/90 rounded-2xl p-5 border shadow-md backdrop-blur-md flex flex-col justify-between space-y-4 transition ${
+                  isPaid ? 'border-emerald-500/30 bg-emerald-950/10' : 'border-slate-800/80'
                 }`}
               >
                 <div>
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <span className="text-[10px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">
+                      <span className="text-[10px] font-semibold text-slate-300 bg-slate-800 border border-slate-700 px-2 py-0.5 rounded-md">
                         {CATEGORY_LABELS[item.category] || 'التزام'}
                       </span>
-                      <h4 className="text-base font-bold text-slate-900 mt-1">{item.creditorName}</h4>
+                      <h4 className="text-base font-bold text-white mt-1">{item.creditorName}</h4>
                     </div>
 
                     <span
                       className={`text-[11px] font-bold px-2.5 py-1 rounded-full border ${
                         isPaid
-                          ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+                          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
                           : isPartial
-                          ? 'bg-amber-100 text-amber-800 border-amber-300'
-                          : 'bg-rose-100 text-rose-800 border-rose-300'
+                          ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
+                          : 'bg-rose-500/20 text-rose-300 border-rose-500/30'
                       }`}
                     >
                       {isPaid ? 'تم السداد بالكامل ✓' : isPartial ? 'مدفوع جزئياً' : 'غير مدفوع'}
@@ -244,22 +244,22 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
                   </div>
 
                   {/* Amounts Breakdown */}
-                  <div className="mt-4 grid grid-cols-3 gap-2 bg-slate-50 p-3 rounded-xl border border-slate-100 text-center">
+                  <div className="mt-4 grid grid-cols-3 gap-2 bg-slate-950/80 p-3 rounded-xl border border-slate-800 text-center">
                     <div>
                       <span className="text-[10px] text-slate-400 block">الإجمالي</span>
-                      <span className="text-xs font-bold text-slate-800">
+                      <span className="text-xs font-bold text-slate-200">
                         {formatCurrency(item.totalAmount, state.currency)}
                       </span>
                     </div>
                     <div>
                       <span className="text-[10px] text-slate-400 block">المدفوع</span>
-                      <span className="text-xs font-bold text-emerald-600">
+                      <span className="text-xs font-bold text-emerald-400">
                         {formatCurrency(item.paidAmount, state.currency)}
                       </span>
                     </div>
                     <div>
                       <span className="text-[10px] text-slate-400 block">المتبقي</span>
-                      <span className={`text-xs font-bold ${remaining > 0 ? 'text-amber-600' : 'text-slate-400'}`}>
+                      <span className={`text-xs font-bold ${remaining > 0 ? 'text-amber-400' : 'text-slate-500'}`}>
                         {formatCurrency(remaining, state.currency)}
                       </span>
                     </div>
@@ -269,9 +269,9 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
                   <div className="mt-3">
                     <div className="flex justify-between items-center text-[11px] text-slate-400 mb-1">
                       <span>نسبة السداد:</span>
-                      <span className="font-semibold text-slate-700">{progress}%</span>
+                      <span className="font-semibold text-slate-300">{progress}%</span>
                     </div>
-                    <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                    <div className="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
                       <div
                         className={`h-full transition-all duration-300 ${
                           isPaid ? 'bg-emerald-500' : 'bg-amber-500'
@@ -282,14 +282,14 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
                   </div>
 
                   {item.notes && (
-                    <p className="text-xs text-slate-500 mt-2 bg-slate-50/50 p-2 rounded-lg italic">
+                    <p className="text-xs text-slate-400 mt-2 bg-slate-950/40 p-2 rounded-lg italic border border-slate-800/50">
                       &ldquo;{item.notes}&rdquo;
                     </p>
                   )}
                 </div>
 
                 {/* Footer Controls */}
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
                   <div className="flex items-center gap-1 text-slate-400">
                     <Calendar className="w-3.5 h-3.5" />
                     <span>تاريخ الاستحقاق: {formatDateArabic(item.dueDate)}</span>
@@ -310,7 +310,7 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
 
                     <button
                       onClick={() => onDeleteLiability(item.id)}
-                      className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg transition"
+                      className="p-1.5 text-slate-400 hover:text-rose-400 rounded-lg transition"
                       title="حذف الالتزام"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -322,8 +322,8 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
             );
           })
         ) : (
-          <div className="col-span-full py-12 text-center text-slate-400 bg-white rounded-2xl border border-slate-200">
-            <CreditCard className="w-10 h-10 mx-auto mb-2 text-slate-300" />
+          <div className="col-span-full py-12 text-center text-slate-500 bg-slate-900/90 rounded-2xl border border-slate-800">
+            <CreditCard className="w-10 h-10 mx-auto mb-2 text-slate-600" />
             <p className="text-sm font-medium">لا توجد ديون أو التزامات مسجلة.</p>
           </div>
         )}
@@ -331,19 +331,19 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
 
       {/* Add Liability Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-100 animate-in fade-in zoom-in duration-150">
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-slate-900 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-800 text-white animate-in fade-in zoom-in duration-150">
             
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
               <div className="flex items-center gap-2">
-                <div className="p-2 bg-amber-100 text-amber-800 rounded-xl">
+                <div className="p-2 bg-amber-500/20 text-amber-400 rounded-xl border border-amber-500/30">
                   <Plus className="w-5 h-5" />
                 </div>
-                <h3 className="text-lg font-bold text-slate-900">إضافة دين أو التزام جديد (فلوس عليا)</h3>
+                <h3 className="text-lg font-bold text-white">إضافة دين أو التزام جديد (فلوس عليا)</h3>
               </div>
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg transition"
+                className="p-1.5 text-slate-400 hover:text-slate-200 rounded-lg transition"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -352,7 +352,7 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
             <form onSubmit={handleAddSubmit} className="mt-4 space-y-4">
               
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label className="block text-xs font-bold text-slate-300 mb-1">
                   اسم جهة الدين / الالتزام *
                 </label>
                 <input
@@ -361,13 +361,13 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
                   placeholder="مثال: إيجار الشقة، قسط المكنة للمعرض، جمعية الشهر"
                   value={creditorName}
                   onChange={(e) => setCreditorName(e.target.value)}
-                  className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-xs focus:border-amber-500 outline-none"
+                  className="w-full px-3 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:border-amber-500 outline-none"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">إجمالي مبلغ الدين (ج.م) *</label>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">إجمالي مبلغ الدين (ج.م) *</label>
                   <input
                     type="number"
                     step="any"
@@ -375,30 +375,30 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
                     placeholder="0.00"
                     value={totalAmount}
                     onChange={(e) => setTotalAmount(e.target.value)}
-                    className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-xs font-bold text-amber-700 focus:border-amber-500 outline-none"
+                    className="w-full px-3 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-xs font-bold text-amber-400 focus:border-amber-500 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">المبلغ المدفوع سابقاً (إن وجد)</label>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">المبلغ المدفوع سابقاً (إن وجد)</label>
                   <input
                     type="number"
                     step="any"
                     placeholder="0"
                     value={paidAmount}
                     onChange={(e) => setPaidAmount(e.target.value)}
-                    className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-xs text-emerald-700 focus:border-amber-500 outline-none"
+                    className="w-full px-3 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-xs font-bold text-emerald-400 focus:border-amber-500 outline-none"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">تصنيف الالتزام</label>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">تصنيف الالتزام</label>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value as LiabilityCategory)}
-                    className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-xs focus:border-amber-500 outline-none bg-white"
+                    className="w-full px-3 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:border-amber-500 outline-none"
                   >
                     <option value="installment">أقساط مكنة / موبايل</option>
                     <option value="rent">إيجار سكن / محل</option>
@@ -411,24 +411,24 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">تاريخ الاستحقاق</label>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">تاريخ الاستحقاق</label>
                   <input
                     type="date"
                     value={dueDate}
                     onChange={(e) => setDueDate(e.target.value)}
-                    className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-xs focus:border-amber-500 outline-none"
+                    className="w-full px-3 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-xs text-white focus:border-amber-500 outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">ملاحظات إضافية (اختياري)</label>
+                <label className="block text-xs font-bold text-slate-300 mb-1">ملاحظات إضافية (اختياري)</label>
                 <input
                   type="text"
                   placeholder="مثال: دفعت 500 عربون والمتبقي قبل يوم 15"
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-xs focus:border-amber-500 outline-none"
+                  className="w-full px-3 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:border-amber-500 outline-none"
                 />
               </div>
 
@@ -436,7 +436,7 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition"
+                  className="px-4 py-2.5 text-xs font-semibold text-slate-400 hover:bg-slate-800 rounded-xl transition"
                 >
                   إلغاء
                 </button>
@@ -456,35 +456,35 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
 
       {/* Payment / Settlement Modal */}
       {selectedLiabilityForPayment && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-100 animate-in fade-in zoom-in duration-150">
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-slate-900 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-800 text-white animate-in fade-in zoom-in duration-150">
             
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
               <div className="flex items-center gap-2">
-                <div className="p-2 bg-emerald-100 text-emerald-700 rounded-xl">
+                <div className="p-2 bg-emerald-500/20 text-emerald-400 rounded-xl border border-emerald-500/30">
                   <CheckCircle2 className="w-5 h-5" />
                 </div>
-                <h3 className="text-lg font-bold text-slate-900">تسجيل دفعة سداد دين</h3>
+                <h3 className="text-lg font-bold text-white">تسجيل دفعة سداد دين</h3>
               </div>
               <button
                 onClick={() => setSelectedLiabilityForPayment(null)}
-                className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg transition"
+                className="p-1.5 text-slate-400 hover:text-slate-200 rounded-lg transition"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <form onSubmit={handlePaymentSubmit} className="mt-4 space-y-4">
-              <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-                <div className="text-xs text-slate-500">سداد لحساب:</div>
-                <div className="text-sm font-bold text-slate-900">{selectedLiabilityForPayment.creditorName}</div>
-                <div className="text-xs text-amber-700 font-semibold mt-1">
+              <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
+                <div className="text-xs text-slate-400">سداد لحساب:</div>
+                <div className="text-sm font-bold text-white">{selectedLiabilityForPayment.creditorName}</div>
+                <div className="text-xs text-amber-400 font-semibold mt-1">
                   المتبقي الحالي: {formatCurrency(Math.max(0, selectedLiabilityForPayment.totalAmount - selectedLiabilityForPayment.paidAmount), state.currency)}
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">المبلغ الذي ترغب في سداده الآن (ج.م) *</label>
+                <label className="block text-xs font-bold text-slate-300 mb-1">المبلغ الذي ترغب في سداده الآن (ج.م) *</label>
                 <input
                   type="number"
                   step="any"
@@ -492,19 +492,19 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
                   placeholder="0.00"
                   value={paymentAmountInput}
                   onChange={(e) => setPaymentAmountInput(e.target.value)}
-                  className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm font-bold text-emerald-700 focus:border-emerald-500 outline-none"
+                  className="w-full px-3 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-sm font-bold text-emerald-400 focus:border-emerald-500 outline-none"
                 />
               </div>
 
-              <div className="flex items-center gap-2 bg-emerald-50 p-3 rounded-xl border border-emerald-200">
+              <div className="flex items-center gap-2 bg-emerald-500/10 p-3 rounded-xl border border-emerald-500/30">
                 <input
                   type="checkbox"
                   id="chk-log-expense"
                   checked={autoLogExpenseChecked}
                   onChange={(e) => setAutoLogExpenseChecked(e.target.checked)}
-                  className="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500"
+                  className="w-4 h-4 text-emerald-500 rounded focus:ring-emerald-500"
                 />
-                <label htmlFor="chk-log-expense" className="text-xs text-emerald-900 font-semibold cursor-pointer">
+                <label htmlFor="chk-log-expense" className="text-xs text-emerald-200 font-semibold cursor-pointer">
                   تسجيل هذه الدفعة تلقائياً في قائمة المصروفات اليومية
                 </label>
               </div>
@@ -513,7 +513,7 @@ export const LiabilitiesModule: React.FC<LiabilitiesModuleProps> = ({
                 <button
                   type="button"
                   onClick={() => setSelectedLiabilityForPayment(null)}
-                  className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition"
+                  className="px-4 py-2.5 text-xs font-semibold text-slate-400 hover:bg-slate-800 rounded-xl transition"
                 >
                   إلغاء
                 </button>

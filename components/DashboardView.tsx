@@ -152,24 +152,24 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
 
         {/* Total Income */}
-        <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs">
+        <div className="bg-slate-900/90 rounded-2xl p-5 border border-slate-800/80 shadow-md backdrop-blur-md">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500">إجمالي المقبوضات</span>
-            <div className="p-2 bg-emerald-50 text-emerald-600 rounded-xl">
+            <span className="text-xs font-semibold text-slate-400">إجمالي المقبوضات</span>
+            <div className="p-2 bg-emerald-500/20 text-emerald-400 rounded-xl border border-emerald-500/30">
               <TrendingUp className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-3">
-            <h3 className="text-2xl font-bold text-slate-900">
+            <h3 className="text-2xl font-bold text-white">
               {formatCurrency(totalIncome, state.currency)}
             </h3>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-slate-400 mt-1">
               من {state.incomes.length} عملية تحصيل وتيبس
             </p>
           </div>
           <button
             onClick={() => setActiveTab('income')}
-            className="mt-4 pt-3 border-t border-slate-100 w-full flex justify-between items-center text-xs font-semibold text-emerald-600 hover:text-emerald-700"
+            className="mt-4 pt-3 border-t border-slate-800 w-full flex justify-between items-center text-xs font-semibold text-emerald-400 hover:text-emerald-300"
           >
             <span>إدارة المقبوضات</span>
             <ChevronLeft className="w-4 h-4" />
@@ -177,24 +177,24 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
 
         {/* Total Liabilities ("فلوس عليا") */}
-        <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs">
+        <div className="bg-slate-900/90 rounded-2xl p-5 border border-slate-800/80 shadow-md backdrop-blur-md">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500">فلوس عليا (ديون)</span>
-            <div className="p-2 bg-amber-50 text-amber-600 rounded-xl">
+            <span className="text-xs font-semibold text-slate-400">فلوس عليا (ديون)</span>
+            <div className="p-2 bg-amber-500/20 text-amber-400 rounded-xl border border-amber-500/30">
               <CreditCard className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-3">
-            <h3 className="text-2xl font-bold text-amber-600">
+            <h3 className="text-2xl font-bold text-amber-400">
               {formatCurrency(totalLiabilities, state.currency)}
             </h3>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-slate-400 mt-1">
               التزامات قائمة لم تدفع بعد
             </p>
           </div>
           <button
             onClick={() => setActiveTab('liabilities')}
-            className="mt-4 pt-3 border-t border-slate-100 w-full flex justify-between items-center text-xs font-semibold text-amber-600 hover:text-amber-700"
+            className="mt-4 pt-3 border-t border-slate-800 w-full flex justify-between items-center text-xs font-semibold text-amber-400 hover:text-amber-300"
           >
             <span>جدول الديون والالتزامات</span>
             <ChevronLeft className="w-4 h-4" />
@@ -202,24 +202,24 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
 
         {/* Total Receivables ("فلوس ليا") */}
-        <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs">
+        <div className="bg-slate-900/90 rounded-2xl p-5 border border-slate-800/80 shadow-md backdrop-blur-md">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500">فلوس ليا (مستحقات)</span>
-            <div className="p-2 bg-blue-50 text-blue-600 rounded-xl">
+            <span className="text-xs font-semibold text-slate-400">فلوس ليا (مستحقات)</span>
+            <div className="p-2 bg-blue-500/20 text-blue-400 rounded-xl border border-blue-500/30">
               <HandCoins className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-3">
-            <h3 className="text-2xl font-bold text-blue-600">
+            <h3 className="text-2xl font-bold text-blue-400">
               {formatCurrency(totalReceivables, state.currency)}
             </h3>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-slate-400 mt-1">
               مبالغ متبقية لك لدى المطاعم والعملاء
             </p>
           </div>
           <button
             onClick={() => setActiveTab('receivables')}
-            className="mt-4 pt-3 border-t border-slate-100 w-full flex justify-between items-center text-xs font-semibold text-blue-600 hover:text-blue-700"
+            className="mt-4 pt-3 border-t border-slate-800 w-full flex justify-between items-center text-xs font-semibold text-blue-400 hover:text-blue-300"
           >
             <span>سجل المستحقات</span>
             <ChevronLeft className="w-4 h-4" />
@@ -235,25 +235,25 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Income vs Expenses Bar Chart */}
-        <div className="lg:col-span-2 bg-white rounded-2xl p-5 border border-slate-200 shadow-xs">
+        <div className="lg:col-span-2 bg-slate-900/90 rounded-2xl p-5 border border-slate-800/80 shadow-md backdrop-blur-md">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-                <BarChart3 className="w-5 h-5 text-emerald-600" />
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <BarChart3 className="w-5 h-5 text-emerald-400" />
                 مقارنة المقبوضات والمصروفات اليومية
               </h3>
-              <p className="text-xs text-slate-500">آخر 7 أيام عمل</p>
+              <p className="text-xs text-slate-400">آخر 7 أيام عمل</p>
             </div>
           </div>
 
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={dailyChartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" />
                 <XAxis dataKey="date" stroke="#94a3b8" fontSize={12} />
                 <YAxis stroke="#94a3b8" fontSize={12} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#0f172a', borderRadius: '12px', border: 'none', color: '#fff' }}
+                  contentStyle={{ backgroundColor: '#0f172a', borderRadius: '12px', border: '1px solid #334155', color: '#fff' }}
                   formatter={(val: any) => [`${val ?? 0} ${state.currency}`, '']}
                 />
                 <Bar dataKey="income" name="المقبوضات" fill="#10b981" radius={[6, 6, 0, 0]} />
@@ -264,13 +264,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
 
         {/* Expenses Category Pie Chart */}
-        <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs flex flex-col justify-between">
+        <div className="bg-slate-900/90 rounded-2xl p-5 border border-slate-800/80 shadow-md backdrop-blur-md flex flex-col justify-between">
           <div>
-            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2 mb-1">
-              <PieChartIcon className="w-5 h-5 text-purple-600" />
+            <h3 className="text-base font-bold text-white flex items-center gap-2 mb-1">
+              <PieChartIcon className="w-5 h-5 text-purple-400" />
               توزيع المصروفات
             </h3>
-            <p className="text-xs text-slate-500 mb-4">أين ذهبت نقودك؟</p>
+            <p className="text-xs text-slate-400 mb-4">أين ذهبت نقودك؟</p>
 
             {pieData.length > 0 ? (
               <div className="h-52 w-full">
@@ -294,13 +294,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 </ResponsiveContainer>
               </div>
             ) : (
-              <div className="h-52 flex items-center justify-center text-xs text-slate-400">
+              <div className="h-52 flex items-center justify-center text-xs text-slate-500">
                 لا توجد مصروفات مسجلة بعد
               </div>
             )}
           </div>
 
-          <div className="space-y-1 mt-2">
+          <div className="space-y-1.5 mt-2">
             {pieData.slice(0, 3).map((item, idx) => (
               <div key={item.name} className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
@@ -308,9 +308,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                     className="w-2.5 h-2.5 rounded-full"
                     style={{ backgroundColor: CHART_COLORS[idx % CHART_COLORS.length] }}
                   ></span>
-                  <span className="text-slate-600">{item.name}</span>
+                  <span className="text-slate-300">{item.name}</span>
                 </div>
-                <span className="font-semibold text-slate-900">
+                <span className="font-semibold text-white">
                   {formatCurrency(item.value, state.currency)}
                 </span>
               </div>
@@ -324,40 +324,40 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Recent Transactions List */}
-        <div className="lg:col-span-2 bg-white rounded-2xl p-5 border border-slate-200 shadow-xs">
+        <div className="lg:col-span-2 bg-slate-900/90 rounded-2xl p-5 border border-slate-800/80 shadow-md backdrop-blur-md">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <Clock className="w-5 h-5 text-slate-600" />
+            <h3 className="text-base font-bold text-white flex items-center gap-2">
+              <Clock className="w-5 h-5 text-slate-400" />
               آخر الحركات المالية
             </h3>
             <div className="flex gap-2">
               <button
                 onClick={onQuickAddIncome}
-                className="text-xs bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold px-2.5 py-1.5 rounded-lg transition"
+                className="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/30 font-semibold px-2.5 py-1.5 rounded-lg transition"
               >
                 + إضافة دخل
               </button>
               <button
                 onClick={onQuickAddExpense}
-                className="text-xs bg-rose-50 text-rose-700 hover:bg-rose-100 font-semibold px-2.5 py-1.5 rounded-lg transition"
+                className="text-xs bg-rose-500/20 text-rose-300 border border-rose-500/30 hover:bg-rose-500/30 font-semibold px-2.5 py-1.5 rounded-lg transition"
               >
                 + إضافة مصروف
               </button>
             </div>
           </div>
 
-          <div className="divide-y divide-slate-100">
+          <div className="divide-y divide-slate-800/80">
             {recentActivities.length > 0 ? (
               recentActivities.map((act) => {
                 const isIncome = act.type === 'income';
                 return (
-                  <div key={act.id} className="py-3 flex items-center justify-between hover:bg-slate-50/80 px-2 rounded-xl transition">
+                  <div key={act.id} className="py-3 flex items-center justify-between hover:bg-slate-800/50 px-2 rounded-xl transition">
                     <div className="flex items-center gap-3">
-                      <div className={`p-2.5 rounded-xl ${isIncome ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
+                      <div className={`p-2.5 rounded-xl ${isIncome ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'}`}>
                         {isIncome ? <ArrowDownRight className="w-4 h-4" /> : <ArrowUpRight className="w-4 h-4" />}
                       </div>
                       <div>
-                        <div className="text-xs sm:text-sm font-bold text-slate-900">
+                        <div className="text-xs sm:text-sm font-bold text-white">
                           {isIncome ? (act as any).source : (act as any).description}
                         </div>
                         <div className="text-[11px] text-slate-400 flex items-center gap-2 mt-0.5">
@@ -367,14 +367,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                       </div>
                     </div>
 
-                    <div className={`text-sm sm:text-base font-bold ${isIncome ? 'text-emerald-600' : 'text-rose-600'}`}>
+                    <div className={`text-sm sm:text-base font-bold ${isIncome ? 'text-emerald-400' : 'text-rose-400'}`}>
                       {isIncome ? '+' : '-'}{formatCurrency(act.amount, state.currency)}
                     </div>
                   </div>
                 );
               })
             ) : (
-              <p className="text-xs text-slate-400 py-6 text-center">لا توجد حركات مسجلة بعد.</p>
+              <p className="text-xs text-slate-500 py-6 text-center">لا توجد حركات مسجلة بعد.</p>
             )}
           </div>
         </div>

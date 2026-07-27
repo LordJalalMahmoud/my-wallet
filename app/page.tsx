@@ -548,35 +548,39 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 pb-28 md:pb-16">
+    <div className="h-[100dvh] w-full flex flex-col bg-slate-950 text-slate-100 overflow-hidden select-none dir-rtl font-sans">
       
-      {/* Top App Header */}
-      <Header
-        state={state}
-        user={user}
-        isFirebaseLoading={isFirebaseLoading}
-        onGoogleLogin={handleGoogleLogin}
-        onLogout={handleLogout}
-        onResetData={handleResetData}
-        onExportData={handleExportData}
-        onImportData={handleImportData}
-        onOpenCalculator={() => setIsCalculatorOpen(true)}
-        onOpenAiModal={() => setIsAiModalOpen(true)}
-        onQuickAddIncome={() => {
-          setActiveTab('income');
-          setIncomeAddInitiallyOpen(true);
-        }}
-        onQuickAddExpense={() => {
-          setActiveTab('expenses');
-          setExpenseAddInitiallyOpen(true);
-        }}
-      />
+      {/* Top Pinned App Header */}
+      <div className="shrink-0 z-30">
+        <Header
+          state={state}
+          user={user}
+          isFirebaseLoading={isFirebaseLoading}
+          onGoogleLogin={handleGoogleLogin}
+          onLogout={handleLogout}
+          onResetData={handleResetData}
+          onExportData={handleExportData}
+          onImportData={handleImportData}
+          onOpenCalculator={() => setIsCalculatorOpen(true)}
+          onOpenAiModal={() => setIsAiModalOpen(true)}
+          onQuickAddIncome={() => {
+            setActiveTab('income');
+            setIncomeAddInitiallyOpen(true);
+          }}
+          onQuickAddExpense={() => {
+            setActiveTab('expenses');
+            setExpenseAddInitiallyOpen(true);
+          }}
+        />
+      </div>
 
-      {/* Main Tab Bar Navigation */}
-      <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} state={state} />
+      {/* Main Tab Bar Navigation (Desktop/Tablet) */}
+      <div className="hidden md:block shrink-0 z-20">
+        <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} state={state} />
+      </div>
 
-      {/* Main Container */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+      {/* Main Full Viewport Scrollable App Content Container */}
+      <main className="flex-1 overflow-y-auto w-full max-w-6xl mx-auto px-3 sm:px-6 py-4 space-y-4 pb-24 md:pb-6 scroll-smooth">
         {activeTab === 'dashboard' && (
           <DashboardView
             state={state}
@@ -668,12 +672,14 @@ export default function HomePage() {
       />
 
       {/* Mobile Sticky Bottom Navigation Bar */}
-      <MobileBottomNav
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        onOpenCalculator={() => setIsCalculatorOpen(true)}
-        state={state}
-      />
+      <div className="shrink-0 z-40">
+        <MobileBottomNav
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          onOpenCalculator={() => setIsCalculatorOpen(true)}
+          state={state}
+        />
+      </div>
 
       {/* Floating Toast Notification */}
       {toastMessage && (

@@ -93,15 +93,15 @@ export const ExpenseModule: React.FC<ExpenseModuleProps> = ({
     <div className="space-y-6">
       
       {/* Top Header */}
-      <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="bg-slate-900/90 rounded-2xl p-5 border border-slate-800/80 shadow-md backdrop-blur-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <div className="p-2 bg-rose-100 text-rose-700 rounded-xl">
+            <div className="p-2 bg-rose-500/20 text-rose-400 rounded-xl border border-rose-500/30">
               <TrendingDown className="w-5 h-5" />
             </div>
-            <h2 className="text-xl font-bold text-slate-900">إدارة المصروفات التشغيلية والشخصية</h2>
+            <h2 className="text-xl font-bold text-white">إدارة المصروفات التشغيلية والشخصية</h2>
           </div>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-slate-400 mt-1">
             تتبع مصاريفك اليومية (البنزين، صيانة المكنة، الوجبات، والمبالغ المدفوعة مقدماً للأوردرات)
           </p>
         </div>
@@ -117,7 +117,7 @@ export const ExpenseModule: React.FC<ExpenseModuleProps> = ({
       </div>
 
       {/* Filters and Search */}
-      <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-3">
+      <div className="bg-slate-900/90 rounded-2xl p-4 border border-slate-800/80 shadow-md backdrop-blur-md space-y-3">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           
           <div className="relative w-full sm:w-72">
@@ -127,7 +127,7 @@ export const ExpenseModule: React.FC<ExpenseModuleProps> = ({
               placeholder="بحث ببيان المصروف..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pr-9 pl-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:border-rose-500 outline-none transition"
+              className="w-full pr-9 pl-3 py-2 bg-slate-950/80 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:border-rose-500 outline-none transition"
             />
           </div>
 
@@ -136,8 +136,8 @@ export const ExpenseModule: React.FC<ExpenseModuleProps> = ({
               onClick={() => setSelectedCategoryFilter('all')}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
                 selectedCategoryFilter === 'all'
-                  ? 'bg-slate-900 text-white'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+                  : 'bg-slate-800/80 text-slate-400 hover:text-slate-200'
               }`}
             >
               الكل ({state.expenses.length})
@@ -149,7 +149,7 @@ export const ExpenseModule: React.FC<ExpenseModuleProps> = ({
                 className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
                   selectedCategoryFilter === catKey
                     ? 'bg-rose-600 text-white'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    : 'bg-slate-800/80 text-slate-400 hover:text-slate-200'
                 }`}
               >
                 {label}
@@ -159,18 +159,18 @@ export const ExpenseModule: React.FC<ExpenseModuleProps> = ({
 
         </div>
 
-        <div className="flex justify-between items-center text-xs text-slate-500 pt-2 border-t border-slate-100">
+        <div className="flex justify-between items-center text-xs text-slate-400 pt-2 border-t border-slate-800/80">
           <span>عدد المعاملات المعروضة: {filteredExpenses.length}</span>
-          <span className="font-bold text-rose-700">
+          <span className="font-bold text-rose-400">
             إجمالي المصروفات المعروضة: {formatCurrency(totalFilteredAmount, state.currency)}
           </span>
         </div>
       </div>
 
       {/* Expense List */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+      <div className="bg-slate-900/90 rounded-2xl border border-slate-800/80 shadow-md backdrop-blur-md overflow-hidden">
         {filteredExpenses.length > 0 ? (
-          <div className="divide-y divide-slate-100">
+          <div className="divide-y divide-slate-800/80">
             {filteredExpenses.map((item) => {
               const catInfo = CATEGORY_LABELS[item.category] || CATEGORY_LABELS.other;
               const linkedIncome = state.incomes.find((i) => i.id === item.linkedIncomeId);
@@ -178,16 +178,16 @@ export const ExpenseModule: React.FC<ExpenseModuleProps> = ({
               return (
                 <div
                   key={item.id}
-                  className="p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 hover:bg-slate-50/70 transition"
+                  className="p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 hover:bg-slate-800/50 transition"
                 >
                   <div className="flex items-start gap-3">
-                    <div className="p-3 bg-rose-50 text-rose-600 rounded-xl mt-0.5">
+                    <div className="p-3 bg-rose-500/20 text-rose-400 rounded-xl mt-0.5 border border-rose-500/30">
                       <TrendingDown className="w-5 h-5" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h4 className="text-sm font-bold text-slate-900">{item.description}</h4>
-                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${catInfo.color}`}>
+                        <h4 className="text-sm font-bold text-white">{item.description}</h4>
+                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
                           {catInfo.label}
                         </span>
                       </div>
@@ -199,7 +199,7 @@ export const ExpenseModule: React.FC<ExpenseModuleProps> = ({
                         </span>
 
                         {linkedIncome && (
-                          <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full text-[10px] flex items-center gap-1">
+                          <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full text-[10px] flex items-center gap-1">
                             <Link2 className="w-3 h-3" />
                             مربوط بمقبوضات: {linkedIncome.source}
                           </span>
@@ -211,12 +211,12 @@ export const ExpenseModule: React.FC<ExpenseModuleProps> = ({
                   </div>
 
                   <div className="flex items-center justify-between w-full sm:w-auto sm:justify-end gap-4">
-                    <span className="text-base sm:text-lg font-bold text-rose-600">
+                    <span className="text-base sm:text-lg font-bold text-rose-400">
                       -{formatCurrency(item.amount, state.currency)}
                     </span>
                     <button
                       onClick={() => onDeleteExpense(item.id)}
-                      className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                      className="p-2 text-slate-400 hover:text-rose-400 hover:bg-slate-800 rounded-lg transition"
                       title="حذف المصروف"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -227,8 +227,8 @@ export const ExpenseModule: React.FC<ExpenseModuleProps> = ({
             })}
           </div>
         ) : (
-          <div className="py-12 text-center text-slate-400">
-            <TrendingDown className="w-10 h-10 mx-auto mb-2 text-slate-300" />
+          <div className="py-12 text-center text-slate-500">
+            <TrendingDown className="w-10 h-10 mx-auto mb-2 text-slate-600" />
             <p className="text-sm font-medium">لا توجد مصروفات مسجلة بعد.</p>
           </div>
         )}
@@ -236,19 +236,19 @@ export const ExpenseModule: React.FC<ExpenseModuleProps> = ({
 
       {/* Add Expense Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-100 animate-in fade-in zoom-in duration-150">
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-slate-900 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-800 text-white animate-in fade-in zoom-in duration-150">
             
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
               <div className="flex items-center gap-2">
-                <div className="p-2 bg-rose-100 text-rose-700 rounded-xl">
+                <div className="p-2 bg-rose-500/20 text-rose-400 rounded-xl border border-rose-500/30">
                   <Plus className="w-5 h-5" />
                 </div>
-                <h3 className="text-lg font-bold text-slate-900">تسجيل مصروف جديد</h3>
+                <h3 className="text-lg font-bold text-white">تسجيل مصروف جديد</h3>
               </div>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg transition"
+                className="p-1.5 text-slate-400 hover:text-slate-200 rounded-lg transition"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -257,7 +257,7 @@ export const ExpenseModule: React.FC<ExpenseModuleProps> = ({
             <form onSubmit={handleFormSubmit} className="mt-4 space-y-4">
               
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label className="block text-xs font-bold text-slate-300 mb-1">
                   البيان / الوصف (سبب المصروف) *
                 </label>
                 <input
@@ -266,13 +266,13 @@ export const ExpenseModule: React.FC<ExpenseModuleProps> = ({
                   placeholder="مثال: بنزين 92، تغيير زيت المكنة، عربون أوردر كباب"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-xs focus:border-rose-500 outline-none"
+                  className="w-full px-3 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:border-rose-500 outline-none"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">المبلغ (ج.م) *</label>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">المبلغ (ج.م) *</label>
                   <input
                     type="number"
                     step="any"
@@ -280,28 +280,28 @@ export const ExpenseModule: React.FC<ExpenseModuleProps> = ({
                     placeholder="0.00"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
-                    className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-xs font-bold text-rose-700 focus:border-rose-500 outline-none"
+                    className="w-full px-3 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-xs font-bold text-rose-400 focus:border-rose-500 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">التاريخ *</label>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">التاريخ *</label>
                   <input
                     type="date"
                     required
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-xs focus:border-rose-500 outline-none"
+                    className="w-full px-3 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-xs text-white focus:border-rose-500 outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">تصنيف المصروف</label>
+                <label className="block text-xs font-bold text-slate-300 mb-1">تصنيف المصروف</label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value as ExpenseCategory)}
-                  className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-xs focus:border-rose-500 outline-none bg-white"
+                  className="w-full px-3 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:border-rose-500 outline-none"
                 >
                   <option value="fuel">وقود وبنزين</option>
                   <option value="order_upfront">عربون/دفع مقدم لأوردرات</option>
@@ -315,18 +315,18 @@ export const ExpenseModule: React.FC<ExpenseModuleProps> = ({
 
               {/* Link to Income Record (for upfront orders) */}
               {category === 'order_upfront' && (
-                <div className="bg-amber-50 p-3 rounded-xl border border-amber-200 text-xs space-y-2">
-                  <div className="flex items-center gap-1.5 text-amber-800 font-bold">
+                <div className="bg-amber-500/10 p-3 rounded-xl border border-amber-500/30 text-xs space-y-2">
+                  <div className="flex items-center gap-1.5 text-amber-300 font-bold">
                     <Link2 className="w-4 h-4" />
                     <span>ربط العربون بتحصيل أوردر (اختياري)</span>
                   </div>
-                  <p className="text-[11px] text-amber-700">
+                  <p className="text-[11px] text-amber-200/80">
                     هل تم تحصيل قيمة هذا الأوردر لاحقاً في قائمة المقبوضات؟ يمكنك ربطه للتأكد من تسويته:
                   </p>
                   <select
                     value={linkedIncomeId}
                     onChange={(e) => setLinkedIncomeId(e.target.value)}
-                    className="w-full px-3 py-2 border border-amber-300 rounded-lg text-xs bg-white text-slate-800"
+                    className="w-full px-3 py-2 bg-slate-950 border border-amber-500/40 rounded-lg text-xs text-amber-200"
                   >
                     <option value="">بدون ربط (مستقل)</option>
                     {state.incomes.map((inc) => (
@@ -339,13 +339,13 @@ export const ExpenseModule: React.FC<ExpenseModuleProps> = ({
               )}
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">ملاحظات إضافية (اختياري)</label>
+                <label className="block text-xs font-bold text-slate-300 mb-1">ملاحظات إضافية (اختياري)</label>
                 <input
                   type="text"
                   placeholder="مثال: عند محطة موبيل، ورشة عم حسن"
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-xs focus:border-rose-500 outline-none"
+                  className="w-full px-3 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:border-rose-500 outline-none"
                 />
               </div>
 
@@ -353,7 +353,7 @@ export const ExpenseModule: React.FC<ExpenseModuleProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition"
+                  className="px-4 py-2.5 text-xs font-semibold text-slate-400 hover:bg-slate-800 rounded-xl transition"
                 >
                   إلغاء
                 </button>

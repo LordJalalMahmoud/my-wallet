@@ -89,9 +89,9 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
   ];
 
   return (
-    <nav className="bg-white border-b border-slate-200 sticky top-[65px] z-20 shadow-xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex space-x-1 space-x-reverse overflow-x-auto py-2.5 scrollbar-none">
+    <nav className="bg-slate-900/95 border-b border-slate-800/80 backdrop-blur-md">
+      <div className="max-w-6xl mx-auto px-3 sm:px-6">
+        <div className="flex space-x-1.5 space-x-reverse overflow-x-auto py-2 scrollbar-none">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -101,19 +101,19 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
                 key={tab.id}
                 id={`tab-${tab.id}`}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition whitespace-nowrap cursor-pointer ${
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition whitespace-nowrap cursor-pointer ${
                   isActive
-                    ? 'bg-slate-900 text-white shadow-sm'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shadow-xs'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-emerald-400' : 'text-slate-500'}`} />
+                <Icon className={`w-4 h-4 ${isActive ? 'text-emerald-400' : 'text-slate-400'}`} />
                 <span>{tab.label}</span>
 
                 {tab.badge !== null && tab.badge !== undefined && (
                   <span
                     className={`text-[11px] px-2 py-0.5 rounded-full ${
-                      isActive ? 'bg-slate-800 text-slate-200' : tab.badgeColor || 'bg-slate-100 text-slate-700'
+                      isActive ? 'bg-emerald-500/30 text-emerald-200' : tab.badgeColor || 'bg-slate-800 text-slate-300'
                     }`}
                   >
                     {tab.badge}
