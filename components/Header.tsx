@@ -5,6 +5,7 @@ import { Wallet, RefreshCw, Download, Upload, Sparkles, Calculator, PlusCircle, 
 import { AppState } from '@/lib/types';
 import { calculateFinancials, formatCurrency } from '@/lib/financeUtils';
 import { User } from 'firebase/auth';
+import { PwaInstallPrompt } from '@/components/PwaInstallPrompt';
 
 interface HeaderProps {
   state: AppState;
@@ -74,6 +75,9 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Quick Action Buttons */}
           <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-none justify-start md:justify-end">
             
+            {/* PWA Install Button */}
+            <PwaInstallPrompt />
+
             {/* Quick Add Buttons */}
             <button
               id="btn-quick-add-income"

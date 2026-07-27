@@ -11,6 +11,13 @@ const tajawal = Tajawal({
 export const metadata: Metadata = {
   title: 'محفظتي - المحاسب المالي للمندوبين',
   description: 'إدارة المقبوضات، المصروفات، الديون (فلوس عليا)، المستحقات (فلوس ليا)، والأهداف المالية مع حساب الفجوة المالية بدقة',
+  manifest: '/manifest.json',
+  themeColor: '#0f172a',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'محفظتي',
+  },
 };
 
 export default function RootLayout({
