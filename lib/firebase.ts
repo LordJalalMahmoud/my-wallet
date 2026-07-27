@@ -120,6 +120,22 @@ export function subscribeToUserData(
   };
 }
 
+// Helper to recursively remove properties with undefined values (Firestore rejects undefined)
+function cleanUndefinedData<T extends Record<string, any>>(obj: T): T {
+  if (obj === null || typeof obj !== 'object') return obj;
+  const cleaned: any = Array.isArray(obj) ? [] : {};
+  for (const key of Object.keys(obj)) {
+    if (obj[key] !== undefined) {
+      if (typeof obj[key] === 'object' && obj[key] !== null && !(obj[key] instanceof Date)) {
+        cleaned[key] = cleanUndefinedData(obj[key]);
+      } else {
+        cleaned[key] = obj[key];
+      }
+    }
+  }
+  return cleaned;
+}
+
 // Firestore CRUD operations
 export async function addFirestoreDoc(
   colName: 'incomes' | 'expenses' | 'liabilities' | 'receivables' | 'goals',
@@ -127,11 +143,11 @@ export async function addFirestoreDoc(
   data: any
 ) {
   const docRef = doc(collection(db, colName));
-  const newRecord = {
+  const newRecord = cleanUndefinedData({
     ...data,
     userId,
     createdAt: new Date().toISOString(),
-  };
+  });
   await setDoc(docRef, newRecord);
   return docRef.id;
 }
@@ -142,7 +158,8 @@ export async function updateFirestoreDoc(
   data: any
 ) {
   const docRef = doc(db, colName, docId);
-  await updateDoc(docRef, data);
+  const cleanedData = cleanUndefinedData(data);
+  await updateDoc(docRef, cleanedData);
 }
 
 export async function deleteFirestoreDoc(
@@ -158,7 +175,7 @@ export async function updateUserSettings(
   settings: { currency?: string; dailyTargetEarnings?: number }
 ) {
   const userDocRef = doc(db, 'users', userId);
-  await updateDoc(userDocRef, settings);
+  await updateDoc(userDocRef, cleanUndefinedData(settings));
 }
 
 export async function clearAllUserData(userId: string) {
