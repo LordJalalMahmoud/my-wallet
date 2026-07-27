@@ -51,8 +51,14 @@ export const IncomeModule: React.FC<IncomeModuleProps> = ({
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const numAmount = parseFloat(amount);
-    if (isNaN(numAmount) || numAmount <= 0) return;
-    if (!source.trim()) return;
+    if (isNaN(numAmount) || numAmount <= 0) {
+      alert('يرجى إدخال مبلغ صحيح أكبر من الصفـر');
+      return;
+    }
+    if (!source.trim()) {
+      alert('يرجى كتابة البيان / مصدر الدخل (مثال: اسم المطعم، الصيدلية، أو العميل)');
+      return;
+    }
 
     onAddIncome({
       amount: numAmount,

@@ -52,8 +52,14 @@ export const ExpenseModule: React.FC<ExpenseModuleProps> = ({
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const numAmount = parseFloat(amount);
-    if (isNaN(numAmount) || numAmount <= 0) return;
-    if (!description.trim()) return;
+    if (isNaN(numAmount) || numAmount <= 0) {
+      alert('يرجى إدخال مبلغ صحيح أكبر من الصفـر');
+      return;
+    }
+    if (!description.trim()) {
+      alert('يرجى كتابة بيان / وصف المصروف (مثال: بنزين، صيانة المكنة، طعام)');
+      return;
+    }
 
     onAddExpense({
       amount: numAmount,

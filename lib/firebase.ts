@@ -88,18 +88,24 @@ export function subscribeToUserData(
     stateKey: keyof AppState
   ) => {
     const q = query(collection(db, colName), where('userId', '==', userId));
-    const unsub = onSnapshot(q, (snapshot) => {
-      const items: T[] = snapshot.docs.map((docSnap) => {
-        const d = docSnap.data();
-        return {
-          id: docSnap.id,
-          ...d,
-        } as unknown as T;
-      });
-      // Sort newest first
-      items.sort((a: any, b: any) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
-      onData({ [stateKey]: items });
-    });
+    const unsub = onSnapshot(
+      q,
+      (snapshot) => {
+        const items: T[] = snapshot.docs.map((docSnap) => {
+          const d = docSnap.data();
+          return {
+            id: docSnap.id,
+            ...d,
+          } as unknown as T;
+        });
+        // Sort newest first
+        items.sort((a: any, b: any) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+        onData({ [stateKey]: items });
+      },
+      (error) => {
+        console.error(`Error in ${colName} subscription:`, error);
+      }
+    );
     unsubscribers.push(unsub);
   };
 

@@ -64,53 +64,144 @@ export default function HomePage() {
     return () => unsubData();
   }, [user]);
 
-  // Firebase Handlers
+  // Notification Toast state
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => {
+      setToastMessage((current) => (current === msg ? null : current));
+    }, 3500);
+  };
+
+  // Firebase Handlers with Optimistic UI updates
   const handleAddIncome = async (income: Omit<IncomeRecord, 'id' | 'createdAt'>) => {
-    if (!user) return;
+    if (!user) {
+      alert('يجب تسجيل الدخول أولاً بحساب Google لحفظ البيانات.');
+      return;
+    }
+    const tempId = `temp-${Date.now()}`;
+    const newRecord: IncomeRecord = {
+      ...income,
+      id: tempId,
+      createdAt: new Date().toISOString(),
+    };
+
+    // Optimistic Update
+    setState((prev) => ({
+      ...prev,
+      incomes: [newRecord, ...prev.incomes],
+    }));
+    showToast('تم حفظ المقبوضات بنجاح وفي انتظار المزامنة...');
+
     try {
       await addFirestoreDoc('incomes', user.uid, income);
+      showToast('تم حفظ المقبوضات بنجاح في Firebase ✓');
     } catch (err) {
       console.error('Error adding income to Firestore:', err);
+      showToast('حدث خطأ أثناء الحفظ في قواعد البيانات!');
     }
   };
 
   const handleDeleteIncome = async (id: string) => {
+    // Optimistic Update
+    const previousIncomes = state.incomes;
+    setState((prev) => ({
+      ...prev,
+      incomes: prev.incomes.filter((item) => item.id !== id),
+    }));
+    showToast('تم حذف السجل.');
+
     try {
-      await deleteFirestoreDoc('incomes', id);
+      if (!id.startsWith('temp-')) {
+        await deleteFirestoreDoc('incomes', id);
+      }
     } catch (err) {
       console.error('Error deleting income:', err);
+      setState((prev) => ({ ...prev, incomes: previousIncomes }));
+      showToast('فشل حذف السجل من Firebase');
     }
   };
 
   const handleAddExpense = async (expense: Omit<ExpenseRecord, 'id' | 'createdAt'>) => {
-    if (!user) return;
+    if (!user) {
+      alert('يجب تسجيل الدخول أولاً لحفظ المصروفات.');
+      return;
+    }
+    const tempId = `temp-${Date.now()}`;
+    const newRecord: ExpenseRecord = {
+      ...expense,
+      id: tempId,
+      createdAt: new Date().toISOString(),
+    };
+
+    // Optimistic Update
+    setState((prev) => ({
+      ...prev,
+      expenses: [newRecord, ...prev.expenses],
+    }));
+    showToast('تم تسجيل المصروف بنجاح...');
+
     try {
       await addFirestoreDoc('expenses', user.uid, expense);
+      showToast('تم حفظ المصروف بنجاح في Firebase ✓');
     } catch (err) {
       console.error('Error adding expense to Firestore:', err);
+      showToast('حدث خطأ أثناء حفظ المصروف!');
     }
   };
 
   const handleDeleteExpense = async (id: string) => {
+    const previousExpenses = state.expenses;
+    setState((prev) => ({
+      ...prev,
+      expenses: prev.expenses.filter((item) => item.id !== id),
+    }));
+    showToast('تم حذف المصروف.');
+
     try {
-      await deleteFirestoreDoc('expenses', id);
+      if (!id.startsWith('temp-')) {
+        await deleteFirestoreDoc('expenses', id);
+      }
     } catch (err) {
       console.error('Error deleting expense:', err);
+      setState((prev) => ({ ...prev, expenses: previousExpenses }));
+      showToast('فشل حذف المصروف');
     }
   };
 
   const handleAddLiability = async (liability: Omit<LiabilityRecord, 'id' | 'createdAt' | 'status'>) => {
-    if (!user) return;
+    if (!user) {
+      alert('يجب تسجيل الدخول أولاً لحفظ الدين.');
+      return;
+    }
     const remaining = Math.max(0, liability.totalAmount - liability.paidAmount);
     const status: LiabilityRecord['status'] = remaining <= 0 ? 'paid' : liability.paidAmount > 0 ? 'partial' : 'unpaid';
+
+    const tempId = `temp-${Date.now()}`;
+    const newRecord: LiabilityRecord = {
+      ...liability,
+      id: tempId,
+      status,
+      createdAt: new Date().toISOString(),
+    };
+
+    // Optimistic Update
+    setState((prev) => ({
+      ...prev,
+      liabilities: [newRecord, ...prev.liabilities],
+    }));
+    showToast('تم تسجيل الدين/الالتزام بنجاح...');
 
     try {
       await addFirestoreDoc('liabilities', user.uid, {
         ...liability,
         status,
       });
+      showToast('تم حفظ الدين بنجاح في Firebase ✓');
     } catch (err) {
       console.error('Error adding liability to Firestore:', err);
+      showToast('حدث خطأ أثناء إضافة الدين!');
     }
   };
 
@@ -123,14 +214,23 @@ export default function HomePage() {
     const remaining = Math.max(0, item.totalAmount - newPaid);
     const status: LiabilityRecord['status'] = remaining <= 0 ? 'paid' : newPaid > 0 ? 'partial' : 'unpaid';
 
+    // Optimistic Update
+    setState((prev) => ({
+      ...prev,
+      liabilities: prev.liabilities.map((l) => (l.id === id ? { ...l, paidAmount: newPaid, status } : l)),
+    }));
+    showToast('تم تحديث سداد الدين بنجاح ✓');
+
     try {
-      await updateFirestoreDoc('liabilities', id, {
-        paidAmount: newPaid,
-        status,
-      });
+      if (!id.startsWith('temp-')) {
+        await updateFirestoreDoc('liabilities', id, {
+          paidAmount: newPaid,
+          status,
+        });
+      }
 
       if (autoLogExpense && additionalPayment > 0) {
-        await addFirestoreDoc('expenses', user.uid, {
+        await handleAddExpense({
           amount: additionalPayment,
           description: `سداد جزء/كامل دين: ${item.creditorName || 'الالتزام'}`,
           category: 'other',
@@ -144,25 +244,55 @@ export default function HomePage() {
   };
 
   const handleDeleteLiability = async (id: string) => {
+    const previousLiabilities = state.liabilities;
+    setState((prev) => ({
+      ...prev,
+      liabilities: prev.liabilities.filter((item) => item.id !== id),
+    }));
+    showToast('تم حذف الالتزام.');
+
     try {
-      await deleteFirestoreDoc('liabilities', id);
+      if (!id.startsWith('temp-')) {
+        await deleteFirestoreDoc('liabilities', id);
+      }
     } catch (err) {
       console.error('Error deleting liability:', err);
+      setState((prev) => ({ ...prev, liabilities: previousLiabilities }));
     }
   };
 
   const handleAddReceivable = async (receivable: Omit<ReceivableRecord, 'id' | 'createdAt' | 'status'>) => {
-    if (!user) return;
+    if (!user) {
+      alert('يجب تسجيل الدخول أولاً لحفظ المستحق.');
+      return;
+    }
     const remaining = Math.max(0, receivable.totalAmount - receivable.collectedAmount);
     const status: ReceivableRecord['status'] = remaining <= 0 ? 'collected' : receivable.collectedAmount > 0 ? 'partial' : 'pending';
+
+    const tempId = `temp-${Date.now()}`;
+    const newRecord: ReceivableRecord = {
+      ...receivable,
+      id: tempId,
+      status,
+      createdAt: new Date().toISOString(),
+    };
+
+    // Optimistic Update
+    setState((prev) => ({
+      ...prev,
+      receivables: [newRecord, ...prev.receivables],
+    }));
+    showToast('تم إضافة المبلغ المستحق بنجاح...');
 
     try {
       await addFirestoreDoc('receivables', user.uid, {
         ...receivable,
         status,
       });
+      showToast('تم حفظ المبلغ المستحق في Firebase ✓');
     } catch (err) {
       console.error('Error adding receivable to Firestore:', err);
+      showToast('حدث خطأ أثناء إضافة المستحق!');
     }
   };
 
@@ -175,14 +305,23 @@ export default function HomePage() {
     const remaining = Math.max(0, item.totalAmount - newCollected);
     const status: ReceivableRecord['status'] = remaining <= 0 ? 'collected' : newCollected > 0 ? 'partial' : 'pending';
 
+    // Optimistic Update
+    setState((prev) => ({
+      ...prev,
+      receivables: prev.receivables.map((r) => (r.id === id ? { ...r, collectedAmount: newCollected, status } : r)),
+    }));
+    showToast('تم تحصيل المبلغ المستحق بنجاح ✓');
+
     try {
-      await updateFirestoreDoc('receivables', id, {
-        collectedAmount: newCollected,
-        status,
-      });
+      if (!id.startsWith('temp-')) {
+        await updateFirestoreDoc('receivables', id, {
+          collectedAmount: newCollected,
+          status,
+        });
+      }
 
       if (autoLogIncome && additionalCollection > 0) {
-        await addFirestoreDoc('incomes', user.uid, {
+        await handleAddIncome({
           amount: additionalCollection,
           source: `تحصيل مستحق: ${item.debtorName || 'الجهة المدينة'}`,
           category: 'orders',
@@ -196,23 +335,53 @@ export default function HomePage() {
   };
 
   const handleDeleteReceivable = async (id: string) => {
+    const previousReceivables = state.receivables;
+    setState((prev) => ({
+      ...prev,
+      receivables: prev.receivables.filter((item) => item.id !== id),
+    }));
+    showToast('تم حذف المستحق.');
+
     try {
-      await deleteFirestoreDoc('receivables', id);
+      if (!id.startsWith('temp-')) {
+        await deleteFirestoreDoc('receivables', id);
+      }
     } catch (err) {
       console.error('Error deleting receivable:', err);
+      setState((prev) => ({ ...prev, receivables: previousReceivables }));
     }
   };
 
   const handleAddGoal = async (goal: Omit<FinancialGoal, 'id' | 'createdAt' | 'isCompleted'>) => {
-    if (!user) return;
+    if (!user) {
+      alert('يجب تسجيل الدخول أولاً لحفظ الهدف.');
+      return;
+    }
     const remaining = Math.max(0, goal.targetAmount - goal.currentSavedAmount);
+    const tempId = `temp-${Date.now()}`;
+    const newRecord: FinancialGoal = {
+      ...goal,
+      id: tempId,
+      isCompleted: remaining <= 0,
+      createdAt: new Date().toISOString(),
+    };
+
+    // Optimistic Update
+    setState((prev) => ({
+      ...prev,
+      goals: [newRecord, ...prev.goals],
+    }));
+    showToast('تم إضافة الهدف المالي بنجاح...');
+
     try {
       await addFirestoreDoc('goals', user.uid, {
         ...goal,
         isCompleted: remaining <= 0,
       });
+      showToast('تم حفظ الهدف المالي في Firebase ✓');
     } catch (err) {
       console.error('Error adding goal to Firestore:', err);
+      showToast('حدث خطأ أثناء إضافة الهدف!');
     }
   };
 
@@ -221,11 +390,20 @@ export default function HomePage() {
     if (!item) return;
 
     const clamped = Math.min(item.targetAmount, newSavedAmount);
+    // Optimistic Update
+    setState((prev) => ({
+      ...prev,
+      goals: prev.goals.map((g) => (g.id === id ? { ...g, currentSavedAmount: clamped, isCompleted: clamped >= g.targetAmount } : g)),
+    }));
+    showToast('تم تحديث المدخرات بنجاح ✓');
+
     try {
-      await updateFirestoreDoc('goals', id, {
-        currentSavedAmount: clamped,
-        isCompleted: clamped >= item.targetAmount,
-      });
+      if (!id.startsWith('temp-')) {
+        await updateFirestoreDoc('goals', id, {
+          currentSavedAmount: clamped,
+          isCompleted: clamped >= item.targetAmount,
+        });
+      }
     } catch (err) {
       console.error('Error updating goal savings:', err);
     }
@@ -235,20 +413,38 @@ export default function HomePage() {
     const item = state.goals.find((g) => g.id === id);
     if (!item) return;
 
+    // Optimistic Update
+    setState((prev) => ({
+      ...prev,
+      goals: prev.goals.map((g) => (g.id === id ? { ...g, isCompleted: !g.isCompleted } : g)),
+    }));
+
     try {
-      await updateFirestoreDoc('goals', id, {
-        isCompleted: !item.isCompleted,
-      });
+      if (!id.startsWith('temp-')) {
+        await updateFirestoreDoc('goals', id, {
+          isCompleted: !item.isCompleted,
+        });
+      }
     } catch (err) {
       console.error('Error toggling goal complete:', err);
     }
   };
 
   const handleDeleteGoal = async (id: string) => {
+    const previousGoals = state.goals;
+    setState((prev) => ({
+      ...prev,
+      goals: prev.goals.filter((item) => item.id !== id),
+    }));
+    showToast('تم حذف الهدف.');
+
     try {
-      await deleteFirestoreDoc('goals', id);
+      if (!id.startsWith('temp-')) {
+        await deleteFirestoreDoc('goals', id);
+      }
     } catch (err) {
       console.error('Error deleting goal:', err);
+      setState((prev) => ({ ...prev, goals: previousGoals }));
     }
   };
 
@@ -478,6 +674,14 @@ export default function HomePage() {
         onOpenCalculator={() => setIsCalculatorOpen(true)}
         state={state}
       />
+
+      {/* Floating Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white border border-emerald-500/40 px-4 py-2.5 rounded-2xl shadow-2xl flex items-center gap-2 text-xs font-semibold animate-in fade-in slide-in-from-bottom-3 duration-200 dir-rtl">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span>{toastMessage}</span>
+        </div>
+      )}
 
     </div>
   );
