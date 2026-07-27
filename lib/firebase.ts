@@ -120,17 +120,17 @@ export function subscribeToUserData(
   };
 }
 
-// Helper to recursively remove properties with undefined values (Firestore rejects undefined)
-function cleanUndefinedData<T extends Record<string, any>>(obj: T): T {
+// Helper to recursively remove properties with undefined values (Firestore SDK rejects undefined)
+function cleanUndefinedData<T>(obj: T): T {
   if (obj === null || typeof obj !== 'object') return obj;
-  const cleaned: any = Array.isArray(obj) ? [] : {};
-  for (const key of Object.keys(obj)) {
-    if (obj[key] !== undefined) {
-      if (typeof obj[key] === 'object' && obj[key] !== null && !(obj[key] instanceof Date)) {
-        cleaned[key] = cleanUndefinedData(obj[key]);
-      } else {
-        cleaned[key] = obj[key];
-      }
+  if (obj instanceof Date) return obj;
+  if (Array.isArray(obj)) {
+    return obj.map(cleanUndefinedData) as unknown as T;
+  }
+  const cleaned: any = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (value !== undefined) {
+      cleaned[key] = typeof value === 'object' && value !== null ? cleanUndefinedData(value) : value;
     }
   }
   return cleaned;
