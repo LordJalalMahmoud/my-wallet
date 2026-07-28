@@ -124,108 +124,171 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
     .slice(0, 6);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-in fade-in duration-200">
       
-      {/* 1. Primary Financial Stat Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        
-        {/* Wallet Cash Balance */}
-        <div className="bg-slate-900 text-white rounded-2xl p-5 border border-slate-800 shadow-sm relative overflow-hidden">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-slate-400">رصيد الكاش والمحفظة</span>
-            <div className="p-2 bg-emerald-500/20 text-emerald-400 rounded-xl">
-              <Wallet className="w-5 h-5" />
+      {/* 1. Native Fintech Hero Header & Main Wallet Card */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-900/90 to-slate-950 rounded-3xl p-6 sm:p-8 border border-slate-800/80 shadow-xl">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 via-teal-400 to-amber-500"></div>
+        <div className="absolute -top-24 -left-24 w-60 h-60 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold bg-emerald-500/10 text-emerald-400 px-2.5 py-1 rounded-full border border-emerald-500/20 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>تزامن مباشر | المندوب</span>
+              </span>
             </div>
+            <h1 className="text-lg sm:text-xl font-bold text-slate-200 mt-2">
+              أهلاً بك في المحفظة المالية الذكية
+            </h1>
           </div>
-          <div className="mt-3">
-            <h3 className={`text-2xl font-bold tracking-tight ${walletBalance >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+
+          <button
+            onClick={onOpenCalculator}
+            className="flex items-center gap-2 bg-slate-800/80 hover:bg-slate-800 text-amber-300 text-xs font-bold px-3.5 py-2 rounded-xl border border-amber-500/30 transition shadow-xs"
+          >
+            <Calculator className="w-4 h-4 text-amber-400" />
+            <span>حاسبة التسوية السريعة</span>
+          </button>
+        </div>
+
+        {/* Large Display Net Cash Balance */}
+        <div className="mt-6 pt-4 border-t border-slate-800/80">
+          <span className="text-xs font-medium text-slate-400 block mb-1">صافي الكاش المتاح بالمحفظة</span>
+          <div className="flex items-baseline gap-3">
+            <h2 className={`text-4xl sm:text-5xl font-extrabold tracking-tight font-mono ${walletBalance >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
               {formatCurrency(walletBalance, state.currency)}
-            </h3>
-            <p className="text-xs text-slate-400 mt-1">
-              (إجمالي المقبوضات – إجمالي المصروفات)
-            </p>
-          </div>
-          <div className="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-xs">
-            <span className="text-slate-400">تحركات اليوم:</span>
-            <span className="text-emerald-300 font-medium">نشط</span>
+            </h2>
+            <span className="text-xs text-slate-400 font-medium">(المقبوضات - المصروفات)</span>
           </div>
         </div>
 
-        {/* Total Income */}
-        <div className="bg-slate-900/90 rounded-2xl p-5 border border-slate-800/80 shadow-md backdrop-blur-md">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400">إجمالي المقبوضات</span>
-            <div className="p-2 bg-emerald-500/20 text-emerald-400 rounded-xl border border-emerald-500/30">
-              <TrendingUp className="w-5 h-5" />
-            </div>
-          </div>
-          <div className="mt-3">
-            <h3 className="text-2xl font-bold text-white">
-              {formatCurrency(totalIncome, state.currency)}
-            </h3>
-            <p className="text-xs text-slate-400 mt-1">
-              من {state.incomes.length} عملية تحصيل وتيبس
-            </p>
-          </div>
+        {/* Native Touch Action Buttons Row */}
+        <div className="mt-6 pt-5 border-t border-slate-800/80 grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <button
+            onClick={onQuickAddIncome}
+            className="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold py-3 px-4 rounded-xl transition shadow-md active:scale-95"
+          >
+            <PlusCircle className="w-4 h-4" />
+            <span>+ تسجيل إيراد</span>
+          </button>
+
+          <button
+            onClick={onQuickAddExpense}
+            className="flex items-center justify-center gap-2 bg-rose-600 hover:bg-rose-500 text-white text-xs sm:text-sm font-bold py-3 px-4 rounded-xl transition shadow-md active:scale-95"
+          >
+            <PlusCircle className="w-4 h-4" />
+            <span>+ تسجيل مصروف</span>
+          </button>
+
+          <button
+            onClick={onOpenAiModal}
+            className="flex items-center justify-center gap-2 bg-indigo-900/60 hover:bg-indigo-900/80 text-white text-xs sm:text-sm font-bold py-3 px-4 rounded-xl border border-indigo-700/50 transition shadow-md active:scale-95"
+          >
+            <Sparkles className="w-4 h-4 text-yellow-300 animate-pulse" />
+            <span>المساعد الذكي</span>
+          </button>
+
           <button
             onClick={() => setActiveTab('income')}
-            className="mt-4 pt-3 border-t border-slate-800 w-full flex justify-between items-center text-xs font-semibold text-emerald-400 hover:text-emerald-300"
+            className="flex items-center justify-center gap-2 bg-slate-800/80 hover:bg-slate-800 text-slate-200 text-xs sm:text-sm font-bold py-3 px-4 rounded-xl border border-slate-700/80 transition shadow-xs active:scale-95"
           >
-            <span>إدارة المقبوضات</span>
-            <ChevronLeft className="w-4 h-4" />
+            <BarChart3 className="w-4 h-4 text-teal-400" />
+            <span>سجل المعاملات</span>
           </button>
         </div>
+      </div>
 
-        {/* Total Liabilities ("فلوس عليا") */}
-        <div className="bg-slate-900/90 rounded-2xl p-5 border border-slate-800/80 shadow-md backdrop-blur-md">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400">فلوس عليا (ديون)</span>
-            <div className="p-2 bg-amber-500/20 text-amber-400 rounded-xl border border-amber-500/30">
-              <CreditCard className="w-5 h-5" />
+      {/* 2. Seamless Flowing Financial Metrics Strip */}
+      <div className="bg-slate-900/70 backdrop-blur-md rounded-2xl border border-slate-800/80 p-5 space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-800/60">
+          <h3 className="text-sm font-bold text-slate-200 flex items-center gap-2">
+            <PieChartIcon className="w-4 h-4 text-emerald-400" />
+            <span>الملخص المالي الشامل</span>
+          </h3>
+          <span className="text-[11px] text-slate-400">حسابات دقيقة ومحدّثة</span>
+        </div>
+
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          
+          {/* Income Summary */}
+          <div
+            onClick={() => setActiveTab('income')}
+            className="p-3.5 bg-slate-950/60 rounded-xl border border-slate-800/80 hover:border-emerald-500/40 transition cursor-pointer group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-slate-400 group-hover:text-emerald-400 transition">إجمالي المقبوضات</span>
+              <div className="p-1.5 bg-emerald-500/20 text-emerald-400 rounded-lg">
+                <TrendingUp className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="mt-2">
+              <h4 className="text-xl font-bold text-emerald-400">
+                {formatCurrency(totalIncome, state.currency)}
+              </h4>
+              <p className="text-[11px] text-slate-500 mt-0.5">{state.incomes.length} عملية تحصيل</p>
             </div>
           </div>
-          <div className="mt-3">
-            <h3 className="text-2xl font-bold text-amber-400">
-              {formatCurrency(totalLiabilities, state.currency)}
-            </h3>
-            <p className="text-xs text-slate-400 mt-1">
-              التزامات قائمة لم تدفع بعد
-            </p>
+
+          {/* Expense Summary */}
+          <div
+            onClick={() => setActiveTab('expenses')}
+            className="p-3.5 bg-slate-950/60 rounded-xl border border-slate-800/80 hover:border-rose-500/40 transition cursor-pointer group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-slate-400 group-hover:text-rose-400 transition">إجمالي المصروفات</span>
+              <div className="p-1.5 bg-rose-500/20 text-rose-400 rounded-lg">
+                <TrendingDown className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="mt-2">
+              <h4 className="text-xl font-bold text-rose-400">
+                {formatCurrency(totalExpense, state.currency)}
+              </h4>
+              <p className="text-[11px] text-slate-500 mt-0.5">{state.expenses.length} عملية صرف</p>
+            </div>
           </div>
-          <button
+
+          {/* Liabilities Summary */}
+          <div
             onClick={() => setActiveTab('liabilities')}
-            className="mt-4 pt-3 border-t border-slate-800 w-full flex justify-between items-center text-xs font-semibold text-amber-400 hover:text-amber-300"
+            className="p-3.5 bg-slate-950/60 rounded-xl border border-slate-800/80 hover:border-amber-500/40 transition cursor-pointer group"
           >
-            <span>جدول الديون والالتزامات</span>
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-        </div>
-
-        {/* Total Receivables ("فلوس ليا") */}
-        <div className="bg-slate-900/90 rounded-2xl p-5 border border-slate-800/80 shadow-md backdrop-blur-md">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400">فلوس ليا (مستحقات)</span>
-            <div className="p-2 bg-blue-500/20 text-blue-400 rounded-xl border border-blue-500/30">
-              <HandCoins className="w-5 h-5" />
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-slate-400 group-hover:text-amber-400 transition">فلوس عليا (ديون)</span>
+              <div className="p-1.5 bg-amber-500/20 text-amber-400 rounded-lg">
+                <CreditCard className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="mt-2">
+              <h4 className="text-xl font-bold text-amber-400">
+                {formatCurrency(totalLiabilities, state.currency)}
+              </h4>
+              <p className="text-[11px] text-slate-500 mt-0.5">التزامات مستحقة</p>
             </div>
           </div>
-          <div className="mt-3">
-            <h3 className="text-2xl font-bold text-blue-400">
-              {formatCurrency(totalReceivables, state.currency)}
-            </h3>
-            <p className="text-xs text-slate-400 mt-1">
-              مبالغ متبقية لك لدى المطاعم والعملاء
-            </p>
-          </div>
-          <button
-            onClick={() => setActiveTab('receivables')}
-            className="mt-4 pt-3 border-t border-slate-800 w-full flex justify-between items-center text-xs font-semibold text-blue-400 hover:text-blue-300"
-          >
-            <span>سجل المستحقات</span>
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-        </div>
 
+          {/* Receivables Summary */}
+          <div
+            onClick={() => setActiveTab('receivables')}
+            className="p-3.5 bg-slate-950/60 rounded-xl border border-slate-800/80 hover:border-blue-500/40 transition cursor-pointer group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-slate-400 group-hover:text-blue-400 transition">فلوس ليا (مستحقات)</span>
+              <div className="p-1.5 bg-blue-500/20 text-blue-400 rounded-lg">
+                <HandCoins className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="mt-2">
+              <h4 className="text-xl font-bold text-blue-400">
+                {formatCurrency(totalReceivables, state.currency)}
+              </h4>
+              <p className="text-[11px] text-slate-500 mt-0.5">مبالغ خارجية لك</p>
+            </div>
+          </div>
+
+        </div>
       </div>
 
       {/* 2. "لسة محتاج" Financial Gap Card */}
