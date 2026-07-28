@@ -556,10 +556,12 @@ export default function HomePage() {
   }
 
   return (
-    <div className="h-[100dvh] w-full flex bg-slate-950 text-slate-100 overflow-hidden select-none dir-rtl font-sans">
+    <div className="h-[100dvh] w-full flex bg-[#030712] text-slate-100 overflow-hidden select-none dir-rtl font-sans relative">
+      {/* Background Ambient Glowing Gradient Spotlights */}
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(16,185,129,0.08),rgba(255,255,255,0))]" />
       
       {/* Desktop & Tablet Sidebar Navigation */}
-      <div className="hidden md:flex h-full shrink-0">
+      <div className="hidden md:flex h-full shrink-0 z-20">
         <Sidebar
           activeTab={activeTab}
           setActiveTab={setActiveTab}
@@ -585,7 +587,7 @@ export default function HomePage() {
       </div>
 
       {/* Main App Workspace Shell */}
-      <div className="flex-1 flex flex-col h-full overflow-hidden bg-slate-950">
+      <div className="flex-1 flex flex-col h-full overflow-hidden bg-transparent z-10">
         
         {/* Mobile Header (Hidden on Desktop) */}
         <div className="md:hidden shrink-0 z-30">
@@ -612,9 +614,9 @@ export default function HomePage() {
         </div>
 
         {/* Desktop Top Workspace Bar */}
-        <header className="hidden md:flex h-14 bg-slate-900/90 border-b border-slate-800/80 px-6 items-center justify-between shrink-0 backdrop-blur-md">
+        <header className="hidden md:flex h-16 bg-slate-950/80 border-b border-slate-800/80 px-8 items-center justify-between shrink-0 backdrop-blur-xl">
           <div className="flex items-center gap-3">
-            <h2 className="text-base font-bold text-white">
+            <h2 className="text-base font-black text-white">
               {activeTab === 'dashboard' && 'الرئيسية - لوحة التحكم المالية الموحدة'}
               {activeTab === 'income' && 'سجل المقبوضات والدخل اليومي'}
               {activeTab === 'expenses' && 'سجل المصروفات والنفقات اليومية'}
@@ -623,15 +625,15 @@ export default function HomePage() {
               {activeTab === 'goals' && 'الأهداف المالية والتسويات المعلقة'}
               {activeTab === 'ai_tools' && 'المساعد الذكي وحاسبة الذكاء الاصطناعي'}
             </h2>
-            <span className="text-xs bg-slate-800 text-slate-400 px-2.5 py-0.5 rounded-full border border-slate-700">
-              نظام محفطتي السحابي
+            <span className="text-[11px] font-bold bg-emerald-500/15 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/30">
+              نظام محفظتي Pro
             </span>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 text-xs bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800">
-              <span className="text-slate-400">حالة البيانات:</span>
-              <span className="text-emerald-400 font-bold flex items-center gap-1">
+            <div className="flex items-center gap-2 text-xs bg-slate-900/90 px-3.5 py-1.5 rounded-2xl border border-slate-800 shadow-sm">
+              <span className="text-slate-400 font-medium">حالة المزامنة:</span>
+              <span className="text-emerald-400 font-bold flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 تزامن سحابي نَشِط
               </span>

@@ -48,7 +48,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
       id: 'liabilities' as TabType,
       label: 'ديون',
       icon: CreditCard,
-      badge: totalLiabilities > 0 ? true : false,
+      badge: totalLiabilities > 0,
     },
     {
       id: 'ai_tools' as TabType,
@@ -59,8 +59,8 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
   ];
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 text-white px-2 py-1.5 shadow-lg">
-      <div className="flex items-center justify-around max-w-md mx-auto">
+    <div className="md:hidden fixed bottom-3 left-3 right-3 z-50">
+      <div className="bg-slate-950/90 backdrop-blur-xl border border-slate-800/90 text-white rounded-2xl px-2 py-2 shadow-2xl shadow-emerald-950/40 flex items-center justify-between max-w-lg mx-auto">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -70,10 +70,10 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
               key={item.id}
               id={`mobile-nav-${item.id}`}
               onClick={() => setActiveTab(item.id)}
-              className={`flex flex-col items-center justify-center py-1.5 px-2 rounded-xl transition min-w-[56px] min-h-[48px] ${
+              className={`flex flex-col items-center justify-center py-1.5 px-2 rounded-xl transition-all duration-200 relative ${
                 isActive
-                  ? 'text-emerald-400 bg-slate-800/80 font-bold'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'text-emerald-400 bg-emerald-500/15 font-bold scale-105 border border-emerald-500/20'
+                  : 'text-slate-400 hover:text-slate-200 active:scale-95'
               }`}
             >
               <div className="relative">
@@ -85,7 +85,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
                   <span className="absolute -top-1 -right-1 w-2 h-2 bg-rose-500 rounded-full" />
                 )}
               </div>
-              <span className="text-[10px] mt-1 tracking-tight">{item.label}</span>
+              <span className="text-[10px] mt-0.5 tracking-tight font-medium">{item.label}</span>
             </button>
           );
         })}
@@ -94,12 +94,13 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
         <button
           id="mobile-nav-calc"
           onClick={onOpenCalculator}
-          className="flex flex-col items-center justify-center py-1.5 px-2.5 rounded-xl bg-amber-500 text-slate-950 font-bold min-w-[56px] min-h-[48px] shadow-sm active:scale-95 transition"
+          className="flex flex-col items-center justify-center py-1.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-extrabold shadow-md active:scale-95 transition"
         >
           <Calculator className="w-5 h-5 text-slate-950" />
-          <span className="text-[10px] mt-0.5">الحاسبة</span>
+          <span className="text-[10px] mt-0.5">حاسبة</span>
         </button>
       </div>
     </div>
   );
 };
+

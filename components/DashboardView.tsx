@@ -298,7 +298,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Income vs Expenses Bar Chart */}
-        <div className="lg:col-span-2 bg-slate-900/90 rounded-2xl p-5 border border-slate-800/80 shadow-md backdrop-blur-md">
+        <div className="lg:col-span-2 bg-slate-900/80 rounded-3xl p-6 border border-slate-800/80 shadow-xl backdrop-blur-xl">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="text-base font-bold text-white flex items-center gap-2">
@@ -307,16 +307,26 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               </h3>
               <p className="text-xs text-slate-400">آخر 7 أيام عمل</p>
             </div>
+            <div className="flex items-center gap-2 text-xs">
+              <span className="flex items-center gap-1 text-emerald-400 font-semibold">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                مقبوضات
+              </span>
+              <span className="flex items-center gap-1 text-rose-400 font-semibold">
+                <span className="w-2.5 h-2.5 rounded-full bg-rose-400"></span>
+                مصروفات
+              </span>
+            </div>
           </div>
 
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={dailyChartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" />
-                <XAxis dataKey="date" stroke="#94a3b8" fontSize={12} />
-                <YAxis stroke="#94a3b8" fontSize={12} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#1e293b" />
+                <XAxis dataKey="date" stroke="#64748b" fontSize={11} />
+                <YAxis stroke="#64748b" fontSize={11} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#0f172a', borderRadius: '12px', border: '1px solid #334155', color: '#fff' }}
+                  contentStyle={{ backgroundColor: '#090d16', borderRadius: '16px', border: '1px solid #1e293b', color: '#fff', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.5)' }}
                   formatter={(val: any) => [`${val ?? 0} ${state.currency}`, '']}
                 />
                 <Bar dataKey="income" name="المقبوضات" fill="#10b981" radius={[6, 6, 0, 0]} />
@@ -327,13 +337,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
 
         {/* Expenses Category Pie Chart */}
-        <div className="bg-slate-900/90 rounded-2xl p-5 border border-slate-800/80 shadow-md backdrop-blur-md flex flex-col justify-between">
+        <div className="bg-slate-900/80 rounded-3xl p-6 border border-slate-800/80 shadow-xl backdrop-blur-xl flex flex-col justify-between">
           <div>
             <h3 className="text-base font-bold text-white flex items-center gap-2 mb-1">
               <PieChartIcon className="w-5 h-5 text-purple-400" />
               توزيع المصروفات
             </h3>
-            <p className="text-xs text-slate-400 mb-4">أين ذهبت نقودك؟</p>
+            <p className="text-xs text-slate-400 mb-4">تحليل أين ذهبت نقودك؟</p>
 
             {pieData.length > 0 ? (
               <div className="h-52 w-full">
@@ -343,16 +353,19 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                       data={pieData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={45}
-                      outerRadius={70}
-                      paddingAngle={4}
+                      innerRadius={48}
+                      outerRadius={72}
+                      paddingAngle={5}
                       dataKey="value"
                     >
                       {pieData.map((_, index) => (
                         <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
                       ))}
                     </Pie>
-                    <Tooltip formatter={(val: any) => [`${val ?? 0} ${state.currency}`, '']} />
+                    <Tooltip
+                      contentStyle={{ backgroundColor: '#090d16', borderRadius: '16px', border: '1px solid #1e293b', color: '#fff' }}
+                      formatter={(val: any) => [`${val ?? 0} ${state.currency}`, '']}
+                    />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
@@ -365,15 +378,15 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
           <div className="space-y-1.5 mt-2">
             {pieData.slice(0, 3).map((item, idx) => (
-              <div key={item.name} className="flex items-center justify-between text-xs">
+              <div key={item.name} className="flex items-center justify-between text-xs p-1.5 rounded-lg bg-slate-950/40">
                 <div className="flex items-center gap-2">
                   <span
                     className="w-2.5 h-2.5 rounded-full"
                     style={{ backgroundColor: CHART_COLORS[idx % CHART_COLORS.length] }}
                   ></span>
-                  <span className="text-slate-300">{item.name}</span>
+                  <span className="text-slate-300 font-medium">{item.name}</span>
                 </div>
-                <span className="font-semibold text-white">
+                <span className="font-bold font-mono text-white">
                   {formatCurrency(item.value, state.currency)}
                 </span>
               </div>
@@ -387,36 +400,40 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Recent Transactions List */}
-        <div className="lg:col-span-2 bg-slate-900/90 rounded-2xl p-5 border border-slate-800/80 shadow-md backdrop-blur-md">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
-              <Clock className="w-5 h-5 text-slate-400" />
-              آخر الحركات المالية
-            </h3>
+        <div className="lg:col-span-2 bg-slate-900/80 rounded-3xl p-6 border border-slate-800/80 shadow-xl backdrop-blur-xl">
+          <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-800/60">
+            <div>
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <Clock className="w-5 h-5 text-emerald-400" />
+                آخر الحركات المالية
+              </h3>
+              <p className="text-xs text-slate-400">سجل المعاملات السريعة والمقبوضات</p>
+            </div>
+
             <div className="flex gap-2">
               <button
                 onClick={onQuickAddIncome}
-                className="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/30 font-semibold px-2.5 py-1.5 rounded-lg transition"
+                className="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/30 font-bold px-3 py-1.5 rounded-xl transition shadow-xs"
               >
-                + إضافة دخل
+                + إيراد
               </button>
               <button
                 onClick={onQuickAddExpense}
-                className="text-xs bg-rose-500/20 text-rose-300 border border-rose-500/30 hover:bg-rose-500/30 font-semibold px-2.5 py-1.5 rounded-lg transition"
+                className="text-xs bg-rose-500/20 text-rose-300 border border-rose-500/30 hover:bg-rose-500/30 font-bold px-3 py-1.5 rounded-xl transition shadow-xs"
               >
-                + إضافة مصروف
+                + مصروف
               </button>
             </div>
           </div>
 
-          <div className="divide-y divide-slate-800/80">
+          <div className="divide-y divide-slate-800/60">
             {recentActivities.length > 0 ? (
               recentActivities.map((act) => {
                 const isIncome = act.type === 'income';
                 return (
-                  <div key={act.id} className="py-3 flex items-center justify-between hover:bg-slate-800/50 px-2 rounded-xl transition">
+                  <div key={act.id} className="py-3 flex items-center justify-between hover:bg-slate-800/40 px-2 rounded-2xl transition">
                     <div className="flex items-center gap-3">
-                      <div className={`p-2.5 rounded-xl ${isIncome ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'}`}>
+                      <div className={`p-2.5 rounded-2xl ${isIncome ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'}`}>
                         {isIncome ? <ArrowDownRight className="w-4 h-4" /> : <ArrowUpRight className="w-4 h-4" />}
                       </div>
                       <div>
@@ -424,34 +441,34 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                           {isIncome ? (act as any).source : (act as any).description}
                         </div>
                         <div className="text-[11px] text-slate-400 flex items-center gap-2 mt-0.5">
-                          <span>{formatDateArabic(act.date)}</span>
-                          {act.notes && <span>• {act.notes}</span>}
+                          <span className="font-mono text-slate-400">{formatDateArabic(act.date)}</span>
+                          {act.notes && <span className="truncate max-w-[150px] sm:max-w-xs">• {act.notes}</span>}
                         </div>
                       </div>
                     </div>
 
-                    <div className={`text-sm sm:text-base font-bold ${isIncome ? 'text-emerald-400' : 'text-rose-400'}`}>
+                    <div className={`text-sm sm:text-base font-extrabold font-mono ${isIncome ? 'text-emerald-400' : 'text-rose-400'}`}>
                       {isIncome ? '+' : '-'}{formatCurrency(act.amount, state.currency)}
                     </div>
                   </div>
                 );
               })
             ) : (
-              <p className="text-xs text-slate-500 py-6 text-center">لا توجد حركات مسجلة بعد.</p>
+              <p className="text-xs text-slate-500 py-8 text-center">لا توجد حركات مسجلة بعد في محفظتك.</p>
             )}
           </div>
         </div>
 
         {/* Quick Shift Tools Widget */}
-        <div className="bg-slate-900 text-white rounded-2xl p-5 border border-slate-800 shadow-sm flex flex-col justify-between">
+        <div className="bg-gradient-to-br from-slate-900 via-slate-900/90 to-slate-950 text-white rounded-3xl p-6 border border-slate-800/80 shadow-xl flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <div className="p-2 bg-amber-500/20 text-amber-400 rounded-xl">
-                <Calculator className="w-5 h-5" />
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-3 bg-amber-500/20 text-amber-400 rounded-2xl border border-amber-500/30 shadow-inner">
+                <Calculator className="w-6 h-6" />
               </div>
               <div>
                 <h3 className="text-base font-bold text-white">حاسبة تسوية الشيفت</h3>
-                <p className="text-xs text-slate-400">حساب أرباح الأوردر فورياً بدون أخطاء</p>
+                <p className="text-xs text-slate-400">حساب أرباح الأوردر فورياً</p>
               </div>
             </div>
 
@@ -460,20 +477,20 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </p>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2.5 mt-2">
             <button
               onClick={onOpenCalculator}
-              className="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-sm"
+              className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold text-xs py-3.5 rounded-2xl transition flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 active:scale-95"
             >
-              <Calculator className="w-4 h-4" />
+              <Calculator className="w-4 h-4 text-slate-950" />
               <span>فتح حاسبة الأوردرات</span>
             </button>
 
             <button
               onClick={onOpenAiModal}
-              className="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs py-2.5 rounded-xl border border-slate-700 transition flex items-center justify-center gap-2"
+              className="w-full bg-slate-800/80 hover:bg-slate-800 text-slate-200 font-bold text-xs py-3 rounded-2xl border border-slate-700/80 transition flex items-center justify-center gap-2 active:scale-95"
             >
-              <Sparkles className="w-4 h-4 text-purple-400" />
+              <Sparkles className="w-4 h-4 text-purple-400 animate-pulse" />
               <span>استخراج العمليات بالذكاء الاصطناعي</span>
             </button>
           </div>

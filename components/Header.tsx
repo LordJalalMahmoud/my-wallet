@@ -40,40 +40,41 @@ export const Header: React.FC<HeaderProps> = ({
   const { walletBalance } = calculateFinancials(state);
 
   return (
-    <header className="bg-slate-950/90 text-white border-b border-slate-800/80 backdrop-blur-md">
-      <div className="max-w-6xl mx-auto px-3 sm:px-6 py-2.5">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-2.5">
+    <header className="bg-slate-950/80 text-white border-b border-slate-800/80 backdrop-blur-xl sticky top-0 z-40">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-3">
           {/* Logo & App Name */}
           <div className="flex items-center justify-between w-full md:w-auto">
-            <div className="flex items-center gap-2.5">
-              <div className="bg-emerald-500/20 text-emerald-400 p-2 rounded-xl border border-emerald-500/30 flex items-center justify-center shrink-0">
+            <div className="flex items-center gap-3">
+              <div className="relative bg-gradient-to-br from-emerald-500/20 to-teal-500/10 text-emerald-400 p-2.5 rounded-2xl border border-emerald-500/30 flex items-center justify-center shrink-0 shadow-md">
                 <Wallet className="w-5 h-5" />
+                <span className="absolute -top-1 -right-1 w-2 h-2 bg-emerald-400 rounded-full animate-ping"></span>
               </div>
               <div>
-                <h1 className="text-lg font-bold tracking-tight text-white flex items-center gap-2">
-                  <span>محفظتي</span>
-                  <span className="text-[11px] font-normal bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1">
+                <h1 className="text-base font-black tracking-tight text-white flex items-center gap-2">
+                  <span>محفظتي <span className="text-emerald-400 font-sans">Pro</span></span>
+                  <span className="text-[10px] font-bold bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1">
                     <CloudCheck className="w-3 h-3 text-emerald-400" />
                     <span>سحابي</span>
                   </span>
                 </h1>
-                <p className="text-[11px] text-slate-400">
+                <p className="text-[11px] text-slate-400 font-medium">
                   المحاسب المالي للمندوب
                 </p>
               </div>
             </div>
 
             {/* Wallet quick balance on mobile */}
-            <div className="md:hidden text-left bg-slate-900/90 px-2.5 py-1 rounded-xl border border-slate-800">
-              <span className="text-[9px] text-slate-400 block">رصيد المحفظة</span>
-              <span className={`text-xs font-bold ${walletBalance >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+            <div className="md:hidden text-left bg-slate-900/90 px-3 py-1.5 rounded-2xl border border-slate-800 shadow-sm">
+              <span className="text-[9px] text-slate-400 font-medium block">رصيد الكاش</span>
+              <span className={`text-xs font-black font-mono ${walletBalance >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                 {formatCurrency(walletBalance, state.currency)}
               </span>
             </div>
           </div>
 
           {/* Quick Action Buttons */}
-          <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-0.5 md:pb-0 scrollbar-none justify-start md:justify-end">
+          <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-0.5 md:pb-0 scrollbar-none justify-start md:justify-end">
             
             {/* PWA Install Button */}
             <PwaInstallPrompt />
@@ -82,7 +83,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               id="btn-quick-add-income"
               onClick={onQuickAddIncome}
-              className="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3 py-2 rounded-lg transition shadow-sm whitespace-nowrap"
+              className="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold px-3.5 py-2 rounded-xl transition shadow-md whitespace-nowrap active:scale-95"
             >
               <PlusCircle className="w-4 h-4" />
               <span>+ إيراد</span>
@@ -91,7 +92,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               id="btn-quick-add-expense"
               onClick={onQuickAddExpense}
-              className="flex items-center gap-1.5 bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold px-3 py-2 rounded-lg transition shadow-sm whitespace-nowrap"
+              className="flex items-center gap-1.5 bg-rose-600 hover:bg-rose-500 text-white text-xs font-extrabold px-3.5 py-2 rounded-xl transition shadow-md whitespace-nowrap active:scale-95"
             >
               <PlusCircle className="w-4 h-4" />
               <span>+ مصروف</span>
@@ -101,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               id="btn-open-calc"
               onClick={onOpenCalculator}
-              className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium px-2.5 py-2 rounded-lg border border-slate-700 transition whitespace-nowrap"
+              className="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-slate-200 text-xs font-bold px-3 py-2 rounded-xl border border-slate-800 transition whitespace-nowrap active:scale-95"
               title="حاسبة تسوية الأوردرات السريعة"
             >
               <Calculator className="w-4 h-4 text-amber-400" />
@@ -112,10 +113,10 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               id="btn-open-ai"
               onClick={onOpenAiModal}
-              className="flex items-center gap-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-xs font-semibold px-3 py-2 rounded-lg transition shadow-sm whitespace-nowrap"
+              className="flex items-center gap-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-xs font-extrabold px-3.5 py-2 rounded-xl transition shadow-md whitespace-nowrap active:scale-95"
               title="المساعد الذكي وإدخال النصوص"
             >
-              <Sparkles className="w-4 h-4 text-yellow-300 animate-pulse" />
+              <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
               <span>المساعد الذكي</span>
             </button>
 
