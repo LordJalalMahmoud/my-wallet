@@ -15,6 +15,7 @@ import {
   clearAllUserData,
 } from '@/lib/firebase';
 import { Header } from '@/components/Header';
+import { Sidebar } from '@/components/Sidebar';
 import { TabNavigation, TabType } from '@/components/TabNavigation';
 import { DashboardView } from '@/components/DashboardView';
 import { IncomeModule } from '@/components/IncomeModule';
@@ -448,6 +449,13 @@ export default function HomePage() {
     }
   };
 
+  const handleToggleCurrency = () => {
+    setState((prev) => ({
+      ...prev,
+      currency: prev.currency === 'EGP' ? 'USD' : prev.currency === 'USD' ? 'SAR' : 'EGP',
+    }));
+  };
+
   const handleAddParsedData = async (data: {
     incomes: Array<Omit<IncomeRecord, 'id' | 'createdAt'>>;
     expenses: Array<Omit<ExpenseRecord, 'id' | 'createdAt'>>;
@@ -548,14 +556,15 @@ export default function HomePage() {
   }
 
   return (
-    <div className="h-[100dvh] w-full flex flex-col bg-slate-950 text-slate-100 overflow-hidden select-none dir-rtl font-sans">
+    <div className="h-[100dvh] w-full flex bg-slate-950 text-slate-100 overflow-hidden select-none dir-rtl font-sans">
       
-      {/* Top Pinned App Header */}
-      <div className="shrink-0 z-30">
-        <Header
+      {/* Desktop & Tablet Sidebar Navigation */}
+      <div className="hidden md:flex h-full shrink-0">
+        <Sidebar
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
           state={state}
           user={user}
-          isFirebaseLoading={isFirebaseLoading}
           onGoogleLogin={handleGoogleLogin}
           onLogout={handleLogout}
           onResetData={handleResetData}
@@ -571,20 +580,26 @@ export default function HomePage() {
             setActiveTab('expenses');
             setExpenseAddInitiallyOpen(true);
           }}
+          onToggleCurrency={handleToggleCurrency}
         />
       </div>
 
-      {/* Main Tab Bar Navigation (Desktop/Tablet) */}
-      <div className="hidden md:block shrink-0 z-20">
-        <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} state={state} />
-      </div>
-
-      {/* Main Full Viewport Scrollable App Content Container */}
-      <main className="flex-1 overflow-y-auto w-full max-w-6xl mx-auto px-3 sm:px-6 py-4 space-y-4 pb-24 md:pb-6 scroll-smooth">
-        {activeTab === 'dashboard' && (
-          <DashboardView
+      {/* Main App Workspace Shell */}
+      <div className="flex-1 flex flex-col h-full overflow-hidden bg-slate-950">
+        
+        {/* Mobile Header (Hidden on Desktop) */}
+        <div className="md:hidden shrink-0 z-30">
+          <Header
             state={state}
-            setActiveTab={setActiveTab}
+            user={user}
+            isFirebaseLoading={isFirebaseLoading}
+            onGoogleLogin={handleGoogleLogin}
+            onLogout={handleLogout}
+            onResetData={handleResetData}
+            onExportData={handleExportData}
+            onImportData={handleImportData}
+            onOpenCalculator={() => setIsCalculatorOpen(true)}
+            onOpenAiModal={() => setIsAiModalOpen(true)}
             onQuickAddIncome={() => {
               setActiveTab('income');
               setIncomeAddInitiallyOpen(true);
@@ -593,66 +608,113 @@ export default function HomePage() {
               setActiveTab('expenses');
               setExpenseAddInitiallyOpen(true);
             }}
-            onOpenCalculator={() => setIsCalculatorOpen(true)}
-            onOpenAiModal={() => setIsAiModalOpen(true)}
           />
-        )}
+        </div>
 
-        {activeTab === 'income' && (
-          <IncomeModule
-            state={state}
-            onAddIncome={handleAddIncome}
-            onDeleteIncome={handleDeleteIncome}
-            isAddModalOpenInitially={incomeAddInitiallyOpen}
-          />
-        )}
+        {/* Desktop Top Workspace Bar */}
+        <header className="hidden md:flex h-14 bg-slate-900/90 border-b border-slate-800/80 px-6 items-center justify-between shrink-0 backdrop-blur-md">
+          <div className="flex items-center gap-3">
+            <h2 className="text-base font-bold text-white">
+              {activeTab === 'dashboard' && 'الرئيسية - لوحة التحكم المالية الموحدة'}
+              {activeTab === 'income' && 'سجل المقبوضات والدخل اليومي'}
+              {activeTab === 'expenses' && 'سجل المصروفات والنفقات اليومية'}
+              {activeTab === 'liabilities' && 'جدول الديون والالتزامات (فلوس عليا)'}
+              {activeTab === 'receivables' && 'جدول المستحقات (فلوس ليا)'}
+              {activeTab === 'goals' && 'الأهداف المالية والتسويات المعلقة'}
+              {activeTab === 'ai_tools' && 'المساعد الذكي وحاسبة الذكاء الاصطناعي'}
+            </h2>
+            <span className="text-xs bg-slate-800 text-slate-400 px-2.5 py-0.5 rounded-full border border-slate-700">
+              نظام محفطتي السحابي
+            </span>
+          </div>
 
-        {activeTab === 'expenses' && (
-          <ExpenseModule
-            state={state}
-            onAddExpense={handleAddExpense}
-            onDeleteExpense={handleDeleteExpense}
-            isAddModalOpenInitially={expenseAddInitiallyOpen}
-          />
-        )}
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 text-xs bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800">
+              <span className="text-slate-400">حالة البيانات:</span>
+              <span className="text-emerald-400 font-bold flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                تزامن سحابي نَشِط
+              </span>
+            </div>
+          </div>
+        </header>
 
-        {activeTab === 'liabilities' && (
-          <LiabilitiesModule
-            state={state}
-            onAddLiability={handleAddLiability}
-            onUpdateLiabilityPayment={handleUpdateLiabilityPayment}
-            onDeleteLiability={handleDeleteLiability}
-          />
-        )}
+        {/* Main Full Viewport Scrollable App Content Workspace */}
+        <main className="flex-1 overflow-y-auto w-full p-3 sm:p-6 space-y-6 pb-24 md:pb-6 scroll-smooth max-w-7xl mx-auto">
+          {activeTab === 'dashboard' && (
+            <DashboardView
+              state={state}
+              setActiveTab={setActiveTab}
+              onQuickAddIncome={() => {
+                setActiveTab('income');
+                setIncomeAddInitiallyOpen(true);
+              }}
+              onQuickAddExpense={() => {
+                setActiveTab('expenses');
+                setExpenseAddInitiallyOpen(true);
+              }}
+              onOpenCalculator={() => setIsCalculatorOpen(true)}
+              onOpenAiModal={() => setIsAiModalOpen(true)}
+            />
+          )}
 
-        {activeTab === 'receivables' && (
-          <ReceivablesModule
-            state={state}
-            onAddReceivable={handleAddReceivable}
-            onUpdateReceivableCollection={handleUpdateReceivableCollection}
-            onDeleteReceivable={handleDeleteReceivable}
-          />
-        )}
+          {activeTab === 'income' && (
+            <IncomeModule
+              state={state}
+              onAddIncome={handleAddIncome}
+              onDeleteIncome={handleDeleteIncome}
+              isAddModalOpenInitially={incomeAddInitiallyOpen}
+            />
+          )}
 
-        {activeTab === 'goals' && (
-          <GoalsModule
-            state={state}
-            onAddGoal={handleAddGoal}
-            onUpdateGoalSavings={handleUpdateGoalSavings}
-            onToggleGoalComplete={handleToggleGoalComplete}
-            onDeleteGoal={handleDeleteGoal}
-          />
-        )}
+          {activeTab === 'expenses' && (
+            <ExpenseModule
+              state={state}
+              onAddExpense={handleAddExpense}
+              onDeleteExpense={handleDeleteExpense}
+              isAddModalOpenInitially={expenseAddInitiallyOpen}
+            />
+          )}
 
-        {activeTab === 'ai_tools' && (
-          <AiToolsTab
-            state={state}
-            onAddParsedData={handleAddParsedData}
-            onAddIncome={handleAddIncome}
-            onAddExpense={handleAddExpense}
-          />
-        )}
-      </main>
+          {activeTab === 'liabilities' && (
+            <LiabilitiesModule
+              state={state}
+              onAddLiability={handleAddLiability}
+              onUpdateLiabilityPayment={handleUpdateLiabilityPayment}
+              onDeleteLiability={handleDeleteLiability}
+            />
+          )}
+
+          {activeTab === 'receivables' && (
+            <ReceivablesModule
+              state={state}
+              onAddReceivable={handleAddReceivable}
+              onUpdateReceivableCollection={handleUpdateReceivableCollection}
+              onDeleteReceivable={handleDeleteReceivable}
+            />
+          )}
+
+          {activeTab === 'goals' && (
+            <GoalsModule
+              state={state}
+              onAddGoal={handleAddGoal}
+              onUpdateGoalSavings={handleUpdateGoalSavings}
+              onToggleGoalComplete={handleToggleGoalComplete}
+              onDeleteGoal={handleDeleteGoal}
+            />
+          )}
+
+          {activeTab === 'ai_tools' && (
+            <AiToolsTab
+              state={state}
+              onAddParsedData={handleAddParsedData}
+              onAddIncome={handleAddIncome}
+              onAddExpense={handleAddExpense}
+            />
+          )}
+        </main>
+
+      </div>
 
       {/* Quick Shift Order Calculator Modal */}
       <OrderCalculatorModal
@@ -671,8 +733,8 @@ export default function HomePage() {
         onAddParsedData={handleAddParsedData}
       />
 
-      {/* Mobile Sticky Bottom Navigation Bar */}
-      <div className="shrink-0 z-40">
+      {/* Mobile Sticky Bottom Navigation Bar (Hidden on Desktop) */}
+      <div className="md:hidden shrink-0 z-40">
         <MobileBottomNav
           activeTab={activeTab}
           setActiveTab={setActiveTab}
